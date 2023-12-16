@@ -1,0 +1,42 @@
+{
+  "path": "/Users/luisfelipeas5/Projects/personal/clean_architecture_analysis/lib",
+  "exclude": [
+    "/src/architecture_core",
+    "/clean_architecture_analysis.dart"
+  ],
+  "componentTypes": [
+    {
+      "name": "entity",
+      "patterns": [
+        "domain/entities/"
+      ]
+    },
+    {
+      "name": "useCase",
+      "patterns": [
+        "domain/use_cases/",
+        "domain/repositories/"
+      ] 
+    },
+    {
+      "name": "interfaceAdapter",
+      "patterns": [
+        "presentation/",
+        "data/repositories/"
+      ]
+    },
+    {
+      "name": "frameworkOrDriver",
+      "patterns": [
+        "data/data_sources/",
+        "data/models/"
+      ] 
+    },
+    {
+      "name": "main",
+      "patterns": [
+        "main/"
+      ]
+    }
+  ]
+}

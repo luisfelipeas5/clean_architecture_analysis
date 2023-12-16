@@ -1,0 +1,30 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "analyze clean_architecture_analysis",
+      "request": "launch",
+      "type": "dart",
+      "program": "bin/clean_architecture_analysis.dart",
+      "args": [
+        "--config",
+        "/Users/luisfelipeas5/Projects/personal/clean_architecture_analysis/assets/inputs/analysis_configs/clean_architecture_analysis/clean_archi_analysis_config.json"
+      ],
+    },
+    {
+      "name": "analyze rider_flutter",
+      "request": "launch",
+      "type": "dart",
+      "program": "bin/clean_architecture_analysis.dart",
+      "args": [
+        "--command",
+        "print",
+        "--config",
+        "/Users/luisfelipeas5/Projects/personal/clean_architecture_analysis/assets/inputs/analysis_configs/rider_flutter/rider_flutter_analysis_config.json"
+      ],
+    }
+  ]
+}

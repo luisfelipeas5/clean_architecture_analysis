@@ -1,0 +1,64 @@
+{
+  "path": "/Users/luisfelipeas5/Projects/rider_flutter/lib/src/",
+  "exclude": [
+    "/utils",
+    ".DS_Store",
+    ".*_module.dart",
+    "shared/core/"
+  ],
+  "componentTypes": [
+    {
+      "name": "entity",
+      "patterns": [
+        "modules/.*/domain/entities/",
+        "modules/.*/domain/entity/",
+        "shared/domain/entities/",
+        "shared/domain/entity/",
+        "modules/auth/domain/user_modality.dart"
+      ]
+    },
+    {
+      "name": "useCase",
+      "patterns": [
+        "modules/.*/domain/usecases/",
+        "modules/.*/domain/usecase/",
+        "modules/.*/doman/use_cases/",
+        "shared/domain/usecases/",
+        "shared/domain/usecase/",
+        "shared/doman/use_cases/",
+        "modules/.*/domain/repositories/",
+        "shared/domain/repositories/"
+      ] 
+    },
+    {
+      "name": "interfaceAdapter",
+      "patterns": [
+        "modules/.*/data/repositories/",
+        "modules/.*/data/respositories/",
+        "shared/data/repositories/",
+        "shared/data/respositories/",
+        "shared/repositories/"
+      ]
+    },
+    {
+      "name": "frameworkOrDriver",
+      "patterns": [
+        "modules/.*/presentation/",
+        "shared/presentation/",
+        "modules/.*/guards/",
+        "modules/.*/data/data_sources/",
+        "modules/.*/data/datasources/",
+        "shared/data/datasources/",
+        "shared/data/data_sources/",
+        "modules/.*/data/models/",
+        "modules/.*/data/model/",
+        "shared/data/models/",
+        "shared/data/model/",
+        "feature_core/[a-zA-Z_]*/",
+        "shared/widgets/",
+        "core/app_router/",
+        "app/"
+      ]
+    }
+  ]
+}
