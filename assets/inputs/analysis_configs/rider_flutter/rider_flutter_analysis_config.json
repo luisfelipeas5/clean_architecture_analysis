@@ -9,55 +9,82 @@
   "componentTypes": [
     {
       "name": "entity",
+      "order": 0,
       "patterns": [
-        "modules/.*/domain/entities/",
-        "modules/.*/domain/entity/",
-        "shared/domain/entities/",
-        "shared/domain/entity/",
-        "modules/auth/domain/user_modality.dart"
+        {
+          "regex": "modules/([A-Za-z0-9_]*)/domain/(entity|entities)/",
+          "name": "modules/${1}/data/entities"
+        },
+        {
+          "regex": "shared/domain/(entity|entities)/",
+          "name": "shared/data/entities"
+        }
       ]
     },
     {
       "name": "useCase",
+      "order": 1,
       "patterns": [
-        "modules/.*/domain/usecases/",
-        "modules/.*/domain/usecase/",
-        "modules/.*/doman/use_cases/",
-        "shared/domain/usecases/",
-        "shared/domain/usecase/",
-        "shared/doman/use_cases/",
-        "modules/.*/domain/repositories/",
-        "shared/domain/repositories/"
-      ] 
+        {
+          "regex": "modules/([A-Za-z0-9_]*)/(domain|doman)/(usecases|usecase|use_case|use_cases)/",
+          "name": "modules/${1}/domain/use_cases"
+        },
+        {
+          "regex": "shared/domain/(usecases|usecase|use_case|use_cases)/",
+          "name": "shared/domain/use_cases"
+        },
+        {
+          "regex": "modules/([A-Za-z0-9_]*)/domain/(repositories|repository)/",
+          "name": "modules/${1}/domain/use_cases"
+        },
+        {
+          "regex": "shared/domain/(repositories|repository)/",
+          "name": "shared/domain/use_cases"
+        }
+      ]
     },
     {
       "name": "interfaceAdapter",
+      "order": 2,
       "patterns": [
-        "modules/.*/data/repositories/",
-        "modules/.*/data/respositories/",
-        "shared/data/repositories/",
-        "shared/data/respositories/",
-        "shared/repositories/"
+        {
+          "regex": "modules/([A-Za-z0-9_]*)/data/(repositories|respositories)/",
+          "name": "modules/${1}/data/repositories"
+        },
+        {
+          "regex": "shared/data/(repositories|respositories)/",
+          "name": "shared/data/repositories"
+        }
       ]
     },
     {
       "name": "frameworkOrDriver",
+      "order": 3,
       "patterns": [
-        "modules/.*/presentation/",
-        "shared/presentation/",
-        "modules/.*/guards/",
-        "modules/.*/data/data_sources/",
-        "modules/.*/data/datasources/",
-        "shared/data/datasources/",
-        "shared/data/data_sources/",
-        "modules/.*/data/models/",
-        "modules/.*/data/model/",
-        "shared/data/models/",
-        "shared/data/model/",
-        "feature_core/[a-zA-Z_]*/",
-        "shared/widgets/",
-        "core/app_router/",
-        "app/"
+        {
+          "regex": "modules/([A-Za-z0-9_]*)/presentation/",
+          "name": "modules/${1}/presentation"
+        },
+        {
+          "regex": "modules/([A-Za-z0-9_]*)/data/(data_sources|datasources|models|model)/",
+          "name": "modules/${1}/data_sources"
+        },
+        {
+          "regex": "shared/presentation/",
+          "name": "shared/presentation"
+        },
+        {
+          "regex": "shared/widgets/",
+          "name": "shared/presentation"
+        },
+        {
+          "regex": "shared/data/(data_sources|datasources|models|model)/",
+          "name": "shared/data_sources"
+        },
+        {
+          "regex": "feature_core/([A-Za-z0-9_]*)/",
+          "name": "feature_core/${1}"
+        }
       ]
     }
   ]
