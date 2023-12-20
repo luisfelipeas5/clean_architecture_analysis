@@ -24,13 +24,15 @@ class ComponentsCsvExporter {
   }
 
   String _getFileContent(List<Component> components) {
-    final headers = "name,type";
+    final headers = "name,type,type_order";
     final tuples = components.map(_getTuple).join("\n");
     return "$headers\n$tuples";
   }
 
   String _getTuple(Component component) {
     final Component(name: name, type: type) = (component);
-    return "$name,${type!.name}";
+    final typeName = type?.name ?? "";
+    final typeOrder = type?.order ?? 99999;
+    return "$name,$typeName,$typeOrder";
   }
 }
