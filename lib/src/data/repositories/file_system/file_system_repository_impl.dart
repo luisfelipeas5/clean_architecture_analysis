@@ -23,4 +23,11 @@ class FileSystemRepositoryImpl extends BaseRepository
       );
     });
   }
+
+  @override
+  Future<Result<String>> getFileContent(AppFile appFile) {
+    return getResultBy(() {
+      return fileSystemDataSource.getFileContent(appFile);
+    });
+  }
 }

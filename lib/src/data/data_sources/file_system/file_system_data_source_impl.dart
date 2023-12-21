@@ -50,4 +50,10 @@ class FileSystemDataSourceImpl implements FileSystemDataSource {
       return RegExp(excludePattern).hasMatch(file.path);
     });
   }
+
+  @override
+  Future<String> getFileContent(AppFile appFile) async {
+    final file = File(appFile.path);
+    return await file.readAsString();
+  }
 }

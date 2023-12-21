@@ -5,4 +5,6 @@ abstract interface class FileSystemDataSource {
     required String path,
     required List<String> exclude,
   });
+
+  Future<String> getFileContent(AppFile appFile);
 }
