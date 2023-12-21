@@ -13,11 +13,11 @@
       "patterns": [
         {
           "regex": "modules/([A-Za-z0-9_]*)/domain/(entity|entities)/",
-          "name": "modules/${1}/data/entities"
+          "name": "modules/${1}/entities"
         },
         {
           "regex": "shared/domain/(entity|entities)/",
-          "name": "shared/data/entities"
+          "name": "shared/entities"
         }
       ]
     },
@@ -27,19 +27,19 @@
       "patterns": [
         {
           "regex": "modules/([A-Za-z0-9_]*)/(domain|doman)/(usecases|usecase|use_case|use_cases)/",
-          "name": "modules/${1}/domain/use_cases"
+          "name": "modules/${1}/use_cases"
         },
         {
           "regex": "shared/domain/(usecases|usecase|use_case|use_cases)/",
-          "name": "shared/domain/use_cases"
+          "name": "shared/use_cases"
         },
         {
           "regex": "modules/([A-Za-z0-9_]*)/domain/(repositories|repository)/",
-          "name": "modules/${1}/domain/use_cases"
+          "name": "modules/${1}/use_cases"
         },
         {
           "regex": "shared/domain/(repositories|repository)/",
-          "name": "shared/domain/use_cases"
+          "name": "shared/use_cases"
         }
       ]
     },
@@ -49,11 +49,11 @@
       "patterns": [
         {
           "regex": "modules/([A-Za-z0-9_]*)/data/(repositories|respositories)/",
-          "name": "modules/${1}/data/repositories"
+          "name": "modules/${1}/repositories"
         },
         {
           "regex": "shared/data/(repositories|respositories)/",
-          "name": "shared/data/repositories"
+          "name": "shared/repositories"
         }
       ]
     },
