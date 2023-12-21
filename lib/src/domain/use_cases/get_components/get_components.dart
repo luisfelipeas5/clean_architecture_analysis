@@ -50,9 +50,21 @@ class GetComponents {
       if (componentResult.isFail()) continue;
 
       final component = componentResult.data!;
-      if (components.contains(component)) continue;
+
+      if (components.contains(component)) {
+        _appendAppFiles(components, component);
+        continue;
+      }
       components.add(component);
     }
+
     return components;
+  }
+
+  void _appendAppFiles(List<Component> components, Component component) {
+    final existedComponent = components.firstWhere(
+      (element) => element.name == component.name,
+    );
+    existedComponent.appFiles.addAll(component.appFiles);
   }
 }
