@@ -23,8 +23,7 @@ class GetComponentByRelativePath {
     for (var type in types) {
       for (var pattern in type.patterns) {
         final regex = pattern.regex;
-        final matchAsPrefix = regex.matchAsPrefix(relativePath) != null;
-        if (matchAsPrefix) return type;
+        if (regex.hasMatch(relativePath)) return type;
       }
     }
     return null;
