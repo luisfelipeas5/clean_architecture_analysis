@@ -4,6 +4,7 @@ import 'package:clean_architecture_analysis/src/domain/entities/analysis_config/
 class AnalysisConfigModel extends AnalysisConfig {
   const AnalysisConfigModel._({
     required super.path,
+    required super.packageName,
     required super.exclude,
     required super.componentTypes,
   });
@@ -11,6 +12,7 @@ class AnalysisConfigModel extends AnalysisConfig {
   factory AnalysisConfigModel.fromJson(Map<String, dynamic> json) {
     return AnalysisConfigModel._(
       path: json["path"],
+      packageName: json["packageName"],
       exclude: (json["exclude"] as List<dynamic>).cast(),
       componentTypes: ComponentTypeModel.fromJsonList(
         (json["componentTypes"] as List<dynamic>).cast(),
