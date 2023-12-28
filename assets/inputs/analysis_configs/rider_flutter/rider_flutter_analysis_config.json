@@ -1,10 +1,13 @@
 {
   "path": "/Users/luisfelipeas5/Projects/rider_flutter/lib/src/",
+  "packageName": "rider_flutter",
   "exclude": [
     "/utils",
     ".DS_Store",
     ".*_module.dart",
-    "shared/core/"
+    "shared/core/",
+    "core/app_router/",
+    "app/"
   ],
   "componentTypes": [
     {
