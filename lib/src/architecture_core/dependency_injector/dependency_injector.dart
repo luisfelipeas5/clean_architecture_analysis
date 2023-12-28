@@ -110,6 +110,7 @@ class DependencyInjector {
   GetComponentByImport _getGetComponentByImport() {
     return GetComponentByImport(
       getComponentByRelativePath: _getGetComponentByRelativePath(),
+      getAnalysisConfig: _getGetAnalysisConfig(),
     );
   }
 

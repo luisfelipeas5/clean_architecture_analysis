@@ -28,7 +28,8 @@ final class ComponentsDependenciesPrinter implements Printer {
   ) {
     _printComponent(componentWithDependencies.component);
 
-    for (var dependency in componentWithDependencies.dependencies) {
+    final dependencies = componentWithDependencies.dependencies;
+    for (var dependency in dependencies) {
       _printDependency(dependency);
     }
   }
