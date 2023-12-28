@@ -20,8 +20,11 @@ class GetDependencies {
     final types = typesResult.data!;
     final dependencies = <ComponentDependency>[];
     for (var appFile in component.appFiles) {
-      final result =
-          await getDependenciesByFile(appFile: appFile, types: types);
+      final result = await getDependenciesByFile(
+        component: component,
+        appFile: appFile,
+        types: types,
+      );
       if (result.isFail()) return result.parseFail();
 
       final dependenciesByFile = result.data ?? [];

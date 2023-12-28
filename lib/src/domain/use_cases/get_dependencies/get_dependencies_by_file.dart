@@ -1,4 +1,5 @@
 import 'package:clean_architecture_analysis/src/architecture_core/result/result.dart';
+import 'package:clean_architecture_analysis/src/domain/entities/components/component.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_dependency.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_type.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/files/app_file.dart';
@@ -15,6 +16,7 @@ class GetDependenciesByFile {
   });
 
   Future<Result<List<ComponentDependency>>> call({
+    required Component component,
     required AppFile appFile,
     required List<ComponentType> types,
   }) async {
@@ -27,18 +29,35 @@ class GetDependenciesByFile {
     final componentDependencies = <ComponentDependency>[];
     for (var import in imports) {
       final componentByImportResult =
-          getComponentByImport(import: import, types: types);
+          await getComponentByImport(import: import, types: types);
       if (componentByImportResult.isFail()) {
         return componentByImportResult.parseFail();
       }
 
+      final componentByImport = componentByImportResult.data;
+      if (!_isDependencyValid(
+        component: component,
+        dependency: componentByImport,
+      )) {
+        continue;
+      }
+
       final componentDependency = ComponentDependency(
-        component: componentByImportResult.data!,
+        component: componentByImport!,
       );
       if (componentDependencies.contains(componentDependency)) continue;
       componentDependencies.add(componentDependency);
     }
     return Result.success(componentDependencies);
+  }
+
+  bool _isDependencyValid({
+    required Component component,
+    required Component? dependency,
+  }) {
+    return dependency != null &&
+        dependency.type != null &&
+        dependency != component;
   }
 
   List<String> _getImports(String content) {
