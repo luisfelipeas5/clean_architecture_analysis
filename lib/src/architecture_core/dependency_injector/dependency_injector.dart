@@ -17,6 +17,7 @@ import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencie
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_dependencies_by_file.dart';
 import 'package:clean_architecture_analysis/src/presentation/csv_exporters/components_csv_exporter.dart';
 import 'package:clean_architecture_analysis/src/presentation/csv_exporters/csv_exporter.dart';
+import 'package:clean_architecture_analysis/src/presentation/json_exporters/dependencies_json_exporter.dart';
 import 'package:clean_architecture_analysis/src/presentation/printers/components_dependencies_printer.dart';
 import 'package:clean_architecture_analysis/src/presentation/printers/components_printer.dart';
 
@@ -50,6 +51,12 @@ class DependencyInjector {
   ComponentsCsvExporter _getComponentsCsvExporter() {
     return ComponentsCsvExporter(
       getComponents: _getGetComponents(),
+    );
+  }
+
+  DependenciesJsonExporter getDependenciesJsonExporter() {
+    return DependenciesJsonExporter(
+      getComponentsWithDependencies: _getGetComponentWithDependencies(),
     );
   }
 

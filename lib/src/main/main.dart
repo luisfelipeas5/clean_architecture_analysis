@@ -4,6 +4,7 @@ enum MainCommand {
   print,
   printDependencies,
   exportCsv,
+  exportDependenciesJson,
 }
 
 class MainComponent {
@@ -28,6 +29,9 @@ class MainComponent {
 
       case MainCommand.printDependencies:
         return _printDependencies();
+
+      case MainCommand.exportDependenciesJson:
+        return _exportDependenciesJson();
     }
   }
 
@@ -44,5 +48,10 @@ class MainComponent {
   Future<void> _printDependencies() async {
     final dependenciesPrinter = injector.getDependenciesPrinter();
     await dependenciesPrinter();
+  }
+
+  Future<void> _exportDependenciesJson() async {
+    final dependenciesJsonExporter = injector.getDependenciesJsonExporter();
+    await dependenciesJsonExporter();
   }
 }
