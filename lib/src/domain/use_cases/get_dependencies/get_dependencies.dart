@@ -33,6 +33,13 @@ class GetDependencies {
         dependencies.add(dependency);
       }
     }
+
+    dependencies.sort(_compareDependencies);
+
     return Result.success(dependencies);
+  }
+
+  int _compareDependencies(ComponentDependency a, ComponentDependency b) {
+    return a.component.name.compareTo(b.component.name);
   }
 }
