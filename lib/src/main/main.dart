@@ -2,7 +2,9 @@ import 'package:clean_architecture_analysis/src/architecture_core/dependency_inj
 
 enum MainCommand {
   print,
+  printDependencies,
   exportCsv,
+  exportDependenciesJson,
 }
 
 class MainComponent {
@@ -20,20 +22,36 @@ class MainComponent {
 
     switch (command) {
       case MainCommand.print:
-        return _print();
+        return _printComponents();
 
       case MainCommand.exportCsv:
         return _exportCsv();
+
+      case MainCommand.printDependencies:
+        return _printDependencies();
+
+      case MainCommand.exportDependenciesJson:
+        return _exportDependenciesJson();
     }
   }
 
-  Future<void> _print() async {
-    final analysisPrinter = injector.getAnalysisPrinter();
-    await analysisPrinter();
+  Future<void> _printComponents() async {
+    final componentsPrinter = injector.getComponentsPrinter();
+    await componentsPrinter();
   }
 
   Future<void> _exportCsv() async {
     final csvExporter = injector.getCsvExporter();
     await csvExporter();
+  }
+
+  Future<void> _printDependencies() async {
+    final dependenciesPrinter = injector.getDependenciesPrinter();
+    await dependenciesPrinter();
+  }
+
+  Future<void> _exportDependenciesJson() async {
+    final dependenciesJsonExporter = injector.getDependenciesJsonExporter();
+    await dependenciesJsonExporter();
   }
 }

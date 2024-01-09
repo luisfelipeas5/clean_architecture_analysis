@@ -1,0 +1,1196 @@
+{
+  "components": [
+    {
+      "name": "shared/repositories",
+      "type": "interfaceAdapter",
+      "dependencies": [
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_support",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/auth/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "shared/data_sources",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "shared/entities",
+      "type": "entity",
+      "dependencies": []
+    },
+    {
+      "name": "shared/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "modules/auth/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "shared/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "modules/home/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/home/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/location/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/trip/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_network",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_info",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_logging",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_remote_config",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_local_file_storage",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_logging",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_analytics",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/domain",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/notification/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/notification/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_deep_links",
+      "type": "frameworkOrDriver",
+      "dependencies": []
+    },
+    {
+      "name": "feature_core/app_storage",
+      "type": "frameworkOrDriver",
+      "dependencies": []
+    },
+    {
+      "name": "feature_core/app_permission_handler",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_location",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_local_file_storage",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_logging",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_info",
+      "type": "frameworkOrDriver",
+      "dependencies": []
+    },
+    {
+      "name": "feature_core/app_network_file_storage",
+      "type": "frameworkOrDriver",
+      "dependencies": []
+    },
+    {
+      "name": "feature_core/app_location",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_permission_handler",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_local_notifications",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_logging",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "modules/auth/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_realtime",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_bugs_collector",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_push_notification",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_location_tracking",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_logging",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/app_bugs_collector",
+      "type": "frameworkOrDriver",
+      "dependencies": []
+    },
+    {
+      "name": "feature_core/app_support",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "feature_core/domain",
+      "type": "frameworkOrDriver",
+      "dependencies": []
+    },
+    {
+      "name": "modules/location_tracking/data_sources",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_remote_config",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/location_tracking/repositories",
+      "type": "interfaceAdapter",
+      "dependencies": [
+        {
+          "name": "feature_core/app_location_tracking",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_logging",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/location_tracking/data_sources",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/location_tracking/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "modules/location_tracking/repositories",
+          "type": "interfaceAdapter"
+        }
+      ]
+    },
+    {
+      "name": "modules/location_tracking/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "modules/location_tracking/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/home/data_sources",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_remote_config",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/home/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/home/repositories",
+      "type": "interfaceAdapter",
+      "dependencies": [
+        {
+          "name": "feature_core/app_location",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_realtime",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/home/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/home/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/home/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/home/entities",
+      "type": "entity",
+      "dependencies": [
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/home/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_bugs_collector",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_info",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_logging",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_push_notification",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_realtime",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_remote_config",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/domain",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/auth/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/home/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/home/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/notification/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "modules/home/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_realtime",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_support",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/auth/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/home/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/home/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/home/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "modules/journey/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/journey/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "modules/location_tracking/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/location_tracking/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/my_trips/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/notification/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/permission/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/permission/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "modules/trip/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/trip_offer/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/trip_offer/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "modules/splash/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_info",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_logging",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_remote_config",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/splash/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/splash/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/trip_offer/data_sources",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/home/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/trip_offer/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "modules/home/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/auth/data_sources",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_remote_config",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/auth/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/auth/repositories",
+      "type": "interfaceAdapter",
+      "dependencies": [
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/auth/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/auth/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/auth/domain/user_modality.dart",
+      "type": null,
+      "dependencies": []
+    },
+    {
+      "name": "modules/auth/entities",
+      "type": "entity",
+      "dependencies": []
+    },
+    {
+      "name": "modules/auth/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "modules/auth/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/auth/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_info",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/auth/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/auth/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/auth/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "modules/auth/guards/verification_guard.dart",
+      "type": null,
+      "dependencies": [
+        {
+          "name": "shared/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "modules/auth/guards/auth_guard.dart",
+      "type": null,
+      "dependencies": [
+        {
+          "name": "shared/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "modules/notification/data_sources",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_remote_config",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/notification/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/notification/repositories",
+      "type": "interfaceAdapter",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/notification/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/notification/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "modules/notification/entities",
+      "type": "entity",
+      "dependencies": []
+    },
+    {
+      "name": "modules/notification/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "feature_core/app_local_notifications",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_push_notification",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/notification/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/permission/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/notification/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_local_notifications",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_push_notification",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/notification/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/notification/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/location/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "modules/permission/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/journey/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "feature_core/app_realtime",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/home/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "modules/journey/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "modules/home/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/home/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/trip/data_sources",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_remote_config",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/trip/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/trip/repositories",
+      "type": "interfaceAdapter",
+      "dependencies": [
+        {
+          "name": "feature_core/app_location",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_realtime",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/trip/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/trip/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/trip/entities",
+      "type": "entity",
+      "dependencies": []
+    },
+    {
+      "name": "modules/trip/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "feature_core/app_realtime",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/trip/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/trip/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_location",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_realtime",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_support",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/location_tracking/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/trip/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/trip/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/trip/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "modules/trip_offer/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/my_trips/data_sources",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_remote_config",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/my_trips/entities",
+          "type": "entity"
+        },
+        {
+          "name": "shared/data_sources",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/my_trips/repositories",
+      "type": "interfaceAdapter",
+      "dependencies": [
+        {
+          "name": "feature_core/app_network",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/my_trips/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/my_trips/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/my_trips/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "shared/repositories",
+          "type": "interfaceAdapter"
+        }
+      ]
+    },
+    {
+      "name": "modules/my_trips/entities",
+      "type": "entity",
+      "dependencies": []
+    },
+    {
+      "name": "modules/my_trips/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "feature_core/app_analytics",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/my_trips/entities",
+          "type": "entity"
+        }
+      ]
+    },
+    {
+      "name": "modules/my_trips/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "modules/home/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/my_trips/data_sources",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/my_trips/entities",
+          "type": "entity"
+        },
+        {
+          "name": "modules/my_trips/use_cases",
+          "type": "useCase"
+        },
+        {
+          "name": "modules/trip/presentation",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "shared/presentation",
+          "type": "frameworkOrDriver"
+        }
+      ]
+    },
+    {
+      "name": "modules/permission/use_cases",
+      "type": "useCase",
+      "dependencies": [
+        {
+          "name": "feature_core/app_local_notifications",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "feature_core/app_push_notification",
+          "type": "frameworkOrDriver"
+        },
+        {
+          "name": "modules/home/use_cases",
+          "type": "useCase"
+        }
+      ]
+    },
+    {
+      "name": "modules/permission/presentation",
+      "type": "frameworkOrDriver",
+      "dependencies": [
+        {
+          "name": "modules/permission/use_cases",
+          "type": "useCase"
+        }
+      ]
+    }
+  ]
+}

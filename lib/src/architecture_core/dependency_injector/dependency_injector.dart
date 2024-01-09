@@ -7,12 +7,18 @@ import 'package:clean_architecture_analysis/src/data/repositories/file_system/fi
 import 'package:clean_architecture_analysis/src/domain/repositories/analysis_config/analysis_config_repository.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_analysis_config/get_analysis_config.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_file.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_import.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_relative_path.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_types.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_components.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_components_and_types.dart';
-import 'package:clean_architecture_analysis/src/presentation/analysis_printer/analysis_printer.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_dependencies.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_dependencies_by_file.dart';
 import 'package:clean_architecture_analysis/src/presentation/csv_exporters/components_csv_exporter.dart';
 import 'package:clean_architecture_analysis/src/presentation/csv_exporters/csv_exporter.dart';
+import 'package:clean_architecture_analysis/src/presentation/json_exporters/dependencies_json_exporter.dart';
+import 'package:clean_architecture_analysis/src/presentation/printers/components_dependencies_printer.dart';
 import 'package:clean_architecture_analysis/src/presentation/printers/components_printer.dart';
 
 class DependencyInjector {
@@ -24,17 +30,15 @@ class DependencyInjector {
     required this.debugMode,
   });
 
-  AnalysisPrinter getAnalysisPrinter() {
-    return AnalysisPrinter(
-      printers: [
-        _getComponentsPrinter(),
-      ],
+  ComponentsPrinter getComponentsPrinter() {
+    return ComponentsPrinter(
+      getComponentsAndTypes: _getGetComponentsAndTypes(),
     );
   }
 
-  ComponentsPrinter _getComponentsPrinter() {
-    return ComponentsPrinter(
-      getComponentsAndTypes: _getComponentsAndTypes(),
+  ComponentsDependenciesPrinter getDependenciesPrinter() {
+    return ComponentsDependenciesPrinter(
+      getComponentsWithDependencies: _getGetComponentWithDependencies(),
     );
   }
 
@@ -50,25 +54,69 @@ class DependencyInjector {
     );
   }
 
-  GetComponentsAndTypes _getComponentsAndTypes() {
+  DependenciesJsonExporter getDependenciesJsonExporter() {
+    return DependenciesJsonExporter(
+      getComponentsWithDependencies: _getGetComponentWithDependencies(),
+    );
+  }
+
+  GetComponentsAndTypes _getGetComponentsAndTypes() {
     return GetComponentsAndTypes(
       getComponents: _getGetComponents(),
       getComponentTypes: _getGetComponentTypes(),
     );
   }
 
+  GetComponentsWithDependencies _getGetComponentWithDependencies() {
+    return GetComponentsWithDependencies(
+      getComponents: _getGetComponents(),
+      getDependencies: _getGetDependencies(),
+    );
+  }
+
   GetComponents _getGetComponents() {
     return GetComponents(
       fileSystemRepository: _getFileSystemRepository(),
-      getComponentByFile: GetComponentByFile(),
+      getComponentByFile: _getGetComponentByFile(),
       getComponentTypes: _getGetComponentTypes(),
       getAnalysisConfig: _getGetAnalysisConfig(),
     );
   }
 
+  GetComponentByFile _getGetComponentByFile() {
+    return GetComponentByFile(
+      getComponentByRelativePath: _getGetComponentByRelativePath(),
+    );
+  }
+
+  GetComponentByRelativePath _getGetComponentByRelativePath() {
+    return GetComponentByRelativePath();
+  }
+
   GetComponentTypes _getGetComponentTypes() {
     return GetComponentTypes(
       fileSystemRepository: _getFileSystemRepository(),
+      getAnalysisConfig: _getGetAnalysisConfig(),
+    );
+  }
+
+  GetDependencies _getGetDependencies() {
+    return GetDependencies(
+      getDependenciesByFile: _getGetDependenciesByFile(),
+      getComponentTypes: _getGetComponentTypes(),
+    );
+  }
+
+  GetDependenciesByFile _getGetDependenciesByFile() {
+    return GetDependenciesByFile(
+      getComponentByImport: _getGetComponentByImport(),
+      fileSystemRepository: _getFileSystemRepository(),
+    );
+  }
+
+  GetComponentByImport _getGetComponentByImport() {
+    return GetComponentByImport(
+      getComponentByRelativePath: _getGetComponentByRelativePath(),
       getAnalysisConfig: _getGetAnalysisConfig(),
     );
   }
