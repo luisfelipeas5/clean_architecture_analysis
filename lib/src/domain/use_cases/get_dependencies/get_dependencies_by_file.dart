@@ -57,7 +57,7 @@ class GetDependenciesByFile {
   }) {
     return dependency != null &&
         dependency.type != null &&
-        dependency != component;
+        dependency.name != component.name;
   }
 
   List<String> _getImports(String content) {
