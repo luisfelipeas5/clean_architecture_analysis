@@ -28,7 +28,10 @@ class GetDependencies {
       if (result.isFail()) return result.parseFail();
 
       final dependenciesByFile = result.data ?? [];
-      dependencies.addAll(dependenciesByFile);
+      for (var dependency in dependenciesByFile) {
+        if (dependencies.contains(dependency)) continue;
+        dependencies.add(dependency);
+      }
     }
     return Result.success(dependencies);
   }
