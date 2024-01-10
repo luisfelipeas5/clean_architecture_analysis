@@ -4,6 +4,7 @@ import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis
 import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/analysis_config_local_data_source_impl.dart';
 import 'package:clean_architecture_analysis/src/data/repositories/analysis_config/analysis_config_repository_impl.dart';
 import 'package:clean_architecture_analysis/src/data/repositories/file_system/file_system_repository_impl.dart';
+import 'package:clean_architecture_analysis/src/dependency_injectors/script/script_dependency_injector.dart';
 import 'package:clean_architecture_analysis/src/domain/repositories/analysis_config/analysis_config_repository.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_analysis_config/get_analysis_config.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_file.dart';
@@ -21,27 +22,30 @@ import 'package:clean_architecture_analysis/src/presentation/json_exporters/depe
 import 'package:clean_architecture_analysis/src/presentation/printers/components_dependencies_printer.dart';
 import 'package:clean_architecture_analysis/src/presentation/printers/components_printer.dart';
 
-class DependencyInjector {
+class NewInstanceScriptDependencyInjector implements ScriptDependencyInjector {
   final String analysisConfigFilePath;
   final bool debugMode;
 
-  const DependencyInjector({
+  const NewInstanceScriptDependencyInjector({
     required this.analysisConfigFilePath,
     required this.debugMode,
   });
 
+  @override
   ComponentsPrinter getComponentsPrinter() {
     return ComponentsPrinter(
       getComponentsAndTypes: _getGetComponentsAndTypes(),
     );
   }
 
+  @override
   ComponentsDependenciesPrinter getDependenciesPrinter() {
     return ComponentsDependenciesPrinter(
       getComponentsWithDependencies: _getGetComponentWithDependencies(),
     );
   }
 
+  @override
   CsvExporter getCsvExporter() {
     return CsvExporter(
       componentsCsvExporter: _getComponentsCsvExporter(),
@@ -54,6 +58,7 @@ class DependencyInjector {
     );
   }
 
+  @override
   DependenciesJsonExporter getDependenciesJsonExporter() {
     return DependenciesJsonExporter(
       getComponentsWithDependencies: _getGetComponentWithDependencies(),

@@ -1,3 +1,5 @@
+import 'package:clean_architecture_analysis/main.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/app_graph.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/node_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,11 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   @override
   void initState() {
     super.initState();
+    final getComponentsWithDependencies =
+        appDependencyInjector<GetComponentsWithDependencies>();
+    final result = getComponentsWithDependencies();
+    print(result);
+
     final node1 = Node.Id(1);
     final node2 = Node.Id(2);
     final node3 = Node.Id(3);

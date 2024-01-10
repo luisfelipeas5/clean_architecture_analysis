@@ -14,7 +14,7 @@ void main(List<String> arguments) {
   final mainCommand = _getMainCommand(argResults);
   print("Main command: ${mainCommand.name}");
 
-  final mainComponent = MainComponent();
+  final mainComponent = ScriptMainComponent();
   mainComponent(
     command: mainCommand,
     analysisConfigFilePath: analysisConfigFilePath,

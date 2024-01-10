@@ -1,4 +1,5 @@
-import 'package:clean_architecture_analysis/src/architecture_core/dependency_injector/dependency_injector.dart';
+import 'package:clean_architecture_analysis/src/dependency_injectors/script/new_instance_script_dependency_injector.dart';
+import 'package:clean_architecture_analysis/src/dependency_injectors/script/script_dependency_injector.dart';
 
 enum MainCommand {
   print,
@@ -7,15 +8,15 @@ enum MainCommand {
   exportDependenciesJson,
 }
 
-class MainComponent {
-  late DependencyInjector injector;
+class ScriptMainComponent {
+  late ScriptDependencyInjector injector;
 
   Future<void> call({
     required String analysisConfigFilePath,
     required MainCommand command,
     required bool debugMode,
   }) async {
-    injector = DependencyInjector(
+    injector = NewInstanceScriptDependencyInjector(
       analysisConfigFilePath: analysisConfigFilePath,
       debugMode: debugMode,
     );
