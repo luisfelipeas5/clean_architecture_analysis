@@ -13,7 +13,7 @@ void main() {
     appDependencyInjector: appDependencyInjector,
     debugMode: kDebugMode,
     analysisConfigFilePath:
-        "/Users/luisfelipeas5/Projects/personal/clean_architecture_analysis/assets/inputs/analysis_configs/rider_flutter/rider_flutter_analysis_config.json",
+        "assets/inputs/analysis_configs/rider_flutter/rider_flutter_analysis_config.json",
   );
   setUpDependencyInjections();
   runApp(MyApp());
