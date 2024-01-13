@@ -2,7 +2,7 @@ import 'package:clean_architecture_analysis/src/architecture_core/dependency_inj
 import 'package:clean_architecture_analysis/src/data/data_sources/file_system/file_system_data_source.dart';
 import 'package:clean_architecture_analysis/src/data/data_sources/file_system/file_system_data_source_impl.dart';
 import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/analysis_config_local_data_source.dart';
-import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/analysis_config_local_data_source_impl.dart';
+import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/app_analysis_config_local_data_source.dart';
 import 'package:clean_architecture_analysis/src/data/repositories/analysis_config/analysis_config_repository_impl.dart';
 import 'package:clean_architecture_analysis/src/data/repositories/file_system/file_system_repository_impl.dart';
 import 'package:clean_architecture_analysis/src/domain/repositories/analysis_config/analysis_config_repository.dart';
@@ -108,7 +108,7 @@ class SetUpDependencyInjections {
   FileSystemDataSource _getFileSystemDataSource() => FileSystemDataSourceImpl();
 
   AnalysisConfigLocalDataSource _getAnalysisConfigLocalDataSource() {
-    return AnalysisConfigLocalDataSourceImpl(
+    return AppAnalysisConfigLocalDataSource(
       analysisConfigFilePath: analysisConfigFilePath,
     );
   }

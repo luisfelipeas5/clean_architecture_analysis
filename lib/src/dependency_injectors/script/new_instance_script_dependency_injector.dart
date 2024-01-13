@@ -1,7 +1,7 @@
 import 'package:clean_architecture_analysis/src/data/data_sources/file_system/file_system_data_source.dart';
 import 'package:clean_architecture_analysis/src/data/data_sources/file_system/file_system_data_source_impl.dart';
 import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/analysis_config_local_data_source.dart';
-import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/analysis_config_local_data_source_impl.dart';
+import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/script_analysis_config_local_data_source.dart';
 import 'package:clean_architecture_analysis/src/data/repositories/analysis_config/analysis_config_repository_impl.dart';
 import 'package:clean_architecture_analysis/src/data/repositories/file_system/file_system_repository_impl.dart';
 import 'package:clean_architecture_analysis/src/dependency_injectors/script/script_dependency_injector.dart';
@@ -150,7 +150,7 @@ class NewInstanceScriptDependencyInjector implements ScriptDependencyInjector {
   FileSystemDataSource _getFileSystemDataSource() => FileSystemDataSourceImpl();
 
   AnalysisConfigLocalDataSource _getAnalysisConfigLocalDataSource() {
-    return AnalysisConfigLocalDataSourceImpl(
+    return ScriptAnalysisConfigLocalDataSource(
       analysisConfigFilePath: analysisConfigFilePath,
     );
   }
