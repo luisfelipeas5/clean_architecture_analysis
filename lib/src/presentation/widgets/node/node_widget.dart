@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class NodeWidget extends StatelessWidget {
-  final int a;
+  final String text;
 
   const NodeWidget({
-    required this.a,
+    required this.text,
     super.key,
   });
 
@@ -22,7 +22,7 @@ class NodeWidget extends StatelessWidget {
             BoxShadow(color: Colors.blue[100]!, spreadRadius: 1),
           ],
         ),
-        child: Text('Node $a'),
+        child: Text(text),
       ),
     );
   }
