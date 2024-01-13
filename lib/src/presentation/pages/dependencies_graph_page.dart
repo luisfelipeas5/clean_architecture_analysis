@@ -1,4 +1,6 @@
 import 'package:clean_architecture_analysis/main.dart';
+import 'package:clean_architecture_analysis/src/domain/entities/components/component_dependency.dart';
+import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/app_graph.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/node_widget.dart';
@@ -17,54 +19,90 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   @override
   void initState() {
     super.initState();
+    _loadGraph();
+  }
+
+  void _loadGraph() async {
     final getComponentsWithDependencies =
         appDependencyInjector<GetComponentsWithDependencies>();
-    final result = getComponentsWithDependencies();
-    print(result);
+    final result = await getComponentsWithDependencies();
+    if (result.isFail()) return print("❌ Failed to get dependencies.");
 
-    final node1 = Node.Id(1);
-    final node2 = Node.Id(2);
-    final node3 = Node.Id(3);
-    final node4 = Node.Id(4);
-    final node5 = Node.Id(5);
-    final node6 = Node.Id(6);
-    final node8 = Node.Id(7);
-    final node7 = Node.Id(8);
-    final node9 = Node.Id(9);
-    final node10 = Node.Id(10);
-    final node11 = Node.Id(11);
-    final node12 = Node.Id(12);
-
-    graph.addEdge(node1, node2);
-    graph.addEdge(node1, node3, paint: Paint()..color = Colors.red);
-    graph.addEdge(node1, node4, paint: Paint()..color = Colors.blue);
-    graph.addEdge(node2, node5);
-    graph.addEdge(node2, node6);
-    graph.addEdge(node6, node7, paint: Paint()..color = Colors.red);
-    graph.addEdge(node6, node8, paint: Paint()..color = Colors.red);
-    graph.addEdge(node4, node9);
-    graph.addEdge(node4, node10, paint: Paint()..color = Colors.black);
-    graph.addEdge(node4, node11, paint: Paint()..color = Colors.red);
-    graph.addEdge(node11, node12);
+    final List<ComponentWithDependencies> componentWithDependenciesList =
+        result.data!;
+    final nodes = componentWithDependenciesList.map(_mapComponentToNode);
+    for (var node in nodes) {
+      _addEdges(
+        node: node,
+        nodes: nodes,
+      );
+    }
 
     builder
       ..siblingSeparation = (100)
       ..levelSeparation = (150)
       ..subtreeSeparation = (150)
       ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AppGraph(
-        graph: graph,
-        builder: builder,
-        nodeWidgetBuilder: (Node node) {
-          final a = node.key?.value as int?;
-          return NodeWidget(a: a ?? 0);
-        },
-      ),
+      body: graph.nodes.isEmpty ? _buildLoader() : _buildAppGraph(),
     );
+  }
+
+  Widget _buildLoader() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  AppGraph _buildAppGraph() {
+    return AppGraph(
+      graph: graph,
+      builder: builder,
+      nodeWidgetBuilder: (Node node) {
+        final ComponentWithDependencies componentWithDependencies =
+            node.key!.value as ComponentWithDependencies;
+        return NodeWidget(
+          text: componentWithDependencies.component.name,
+        );
+      },
+    );
+  }
+
+  Node _mapComponentToNode(
+    ComponentWithDependencies componentWithDependencies,
+  ) {
+    return Node.Id(componentWithDependencies);
+  }
+
+  void _addEdges({
+    required Node node,
+    required Iterable<Node> nodes,
+  }) {
+    final ComponentWithDependencies componentWithDependencies = node.key!.value;
+    for (var dependency in componentWithDependencies.dependencies) {
+      final dependencyNode = nodes.getDependencyNode(dependency);
+      if (dependencyNode != null) {
+        graph.addEdge(node, dependencyNode);
+      }
+    }
+  }
+}
+
+extension _NodeExtension on Iterable<Node> {
+  Node? getDependencyNode(ComponentDependency dependency) {
+    for (var node in this) {
+      final ComponentWithDependencies componentWithDependenciesNode =
+          node.key!.value;
+      final componentNode = componentWithDependenciesNode.component;
+      if (componentNode.name == dependency.component.name) {
+        return node;
+      }
+    }
+    return null;
   }
 }
