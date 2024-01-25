@@ -24,7 +24,7 @@ class AppGraph extends StatelessWidget {
         graph: graph,
         algorithm: BuchheimWalkerAlgorithm(
           builder,
-          TreeEdgeRenderer(builder),
+          ArrowEdgeRenderer(),
         ),
         paint: Paint()
           ..color = Colors.green
