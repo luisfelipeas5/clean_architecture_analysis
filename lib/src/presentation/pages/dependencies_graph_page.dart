@@ -3,6 +3,8 @@ import 'package:clean_architecture_analysis/src/domain/entities/components/compo
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/app_graph.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/factories/component_graph_factory.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/node/component_node_widget.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/node_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
@@ -13,7 +15,10 @@ class DependenciesGraphPage extends StatefulWidget {
 }
 
 class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
-  final componentGraphFactory = ComponentGraphFactory();
+  final componentGraphFactory = ComponentGraphFactory(
+    nodeWidth: NodeWidget.width,
+    nodeHeight: 75,
+  );
 
   @override
   void initState() {
@@ -30,7 +35,9 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
 
     final List<ComponentWithDependencies> componentWithDependenciesList =
         result.data!;
-    componentGraphFactory.load(componentWithDependenciesList);
+    componentGraphFactory.load(
+      componentWithDependenciesList: componentWithDependenciesList,
+    );
     setState(() {});
   }
 
@@ -57,10 +64,8 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
       graph: componentGraphFactory.graph,
       builder: componentGraphFactory.builder,
       nodeWidgetBuilder: (Node node) {
-        final ComponentWithDependencies componentWithDependencies =
-            node.key!.value as ComponentWithDependencies;
-        return NodeWidget(
-          text: componentWithDependencies.component.name,
+        return ComponentNodeWidget(
+          componentNode: node as ComponentNode,
         );
       },
     );

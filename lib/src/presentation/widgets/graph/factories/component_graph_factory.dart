@@ -3,19 +3,31 @@ import 'package:clean_architecture_analysis/src/domain/entities/components/compo
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
 import 'package:graphview/GraphView.dart';
 
+const double nodeMargin = 16;
+
 class ComponentGraphFactory {
-  final Graph graph = Graph()..isTree = true;
-  final BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+  final double nodeWidth, nodeHeight;
+
+  ComponentGraphFactory({
+    required this.nodeWidth,
+    required this.nodeHeight,
+  });
+
+  final graph = Graph()..isTree = true;
+  final builder = BuchheimWalkerConfiguration();
   final xOffsetByOrder = <int, double>{};
 
-  void load(
-    List<ComponentWithDependencies> componentWithDependenciesList,
-  ) {
+  void load({
+    required List<ComponentWithDependencies> componentWithDependenciesList,
+  }) {
     final nodes = componentWithDependenciesList
         .where(_filterNodes)
-        .map(_mapComponentToNode);
+        .map(_mapComponentToNode)
+        .toList();
 
-    _addNodeAndItsPosition(nodes);
+    _addNodeAndPosition(
+      nodes: nodes,
+    );
     _addAllEdges(nodes);
 
     builder
@@ -26,17 +38,26 @@ class ComponentGraphFactory {
   }
 
   bool _filterNodes(ComponentWithDependencies componentWithDependencies) {
-    final order = componentWithDependencies.component.type?.order ?? 0;
-    return order <= 0;
+    final component = componentWithDependencies.component;
+    final order = component.type?.order;
+    if (order == null) return false;
+    // if (component.name.contains("feature_core/")) return false;
+    return true;
   }
 
-  void _addNodeAndItsPosition(Iterable<ComponentNode> nodes) {
+  void _addNodeAndPosition({
+    required Iterable<ComponentNode> nodes,
+  }) {
     for (var node in nodes) {
       graph.addNode(node);
-      _setUpNodePosition(node);
+      _setUpNodePosition(
+        node: node,
+      );
 
       final order = node.order ?? -1;
-      _incrementXOffsetOrder(order);
+      _incrementXOffsetOrder(
+        order: order,
+      );
     }
   }
 
@@ -49,11 +70,6 @@ class ComponentGraphFactory {
     }
   }
 
-  void _incrementXOffsetOrder(int order) {
-    final xOffsetOrder = xOffsetByOrder[order] ?? 0;
-    xOffsetByOrder[order] = xOffsetOrder + 5;
-  }
-
   void _addEdges({
     required ComponentNode node,
     required Iterable<ComponentNode> nodes,
@@ -62,14 +78,24 @@ class ComponentGraphFactory {
       final dependencyNode = nodes.getDependencyNode(dependency);
       if (dependencyNode != null) {
         graph.addEdge(node, dependencyNode);
+        ArrowEdgeRenderer;
       }
     }
   }
 
-  void _setUpNodePosition(ComponentNode node) {
+  void _setUpNodePosition({
+    required ComponentNode node,
+  }) {
     final order = node.order ?? -1;
     node.x = xOffsetByOrder[order] ?? 0;
-    node.y = node.order?.toDouble() ?? 0.0;
+    node.y = (order * nodeHeight) + nodeMargin;
+  }
+
+  void _incrementXOffsetOrder({
+    required int order,
+  }) {
+    final xOffsetOrder = xOffsetByOrder[order] ?? 0;
+    xOffsetByOrder[order] = xOffsetOrder + nodeWidth + nodeMargin;
   }
 
   ComponentNode _mapComponentToNode(
