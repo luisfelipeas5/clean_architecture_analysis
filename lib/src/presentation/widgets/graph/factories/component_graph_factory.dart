@@ -1,5 +1,8 @@
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_dependency.dart';
+import 'package:clean_architecture_analysis/src/domain/entities/components/component_node_position.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/filter_components_graph/filter_components_graph.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/set_components_graph_node_positions/set_components_graph_node_positions.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
 import 'package:graphview/GraphView.dart';
 
@@ -7,57 +10,63 @@ const double nodeMargin = 16;
 
 class ComponentGraphFactory {
   final double nodeWidth, nodeHeight;
+  final FilterComponentsGraph filterGraphComponents;
+  final SetComponentsGraphNodePositions setComponentsGraphNodePositions;
 
   ComponentGraphFactory({
     required this.nodeWidth,
     required this.nodeHeight,
+    required this.setComponentsGraphNodePositions,
+    required this.filterGraphComponents,
   });
 
-  final graph = Graph()..isTree = true;
-  final builder = BuchheimWalkerConfiguration();
-  final xOffsetByOrder = <int, double>{};
+  late Graph graph = Graph();
 
   void load({
     required List<ComponentWithDependencies> componentWithDependenciesList,
   }) {
-    final nodes = componentWithDependenciesList
-        .where(_filterNodes)
-        .map(_mapComponentToNode)
-        .toList();
+    graph = Graph();
+    // graph.isTree = true;
 
-    _addNodeAndPosition(
+    final filteredComponents =
+        filterGraphComponents(components: componentWithDependenciesList).data!;
+
+    final positions = setComponentsGraphNodePositions(
+      components: filteredComponents,
+      nodeHeight: nodeHeight,
+      nodeWidth: nodeWidth,
+      nodeMargin: nodeMargin,
+    ).data!;
+
+    final nodes =
+        componentWithDependenciesList.map(_mapComponentToNode).toList();
+
+    _addNodes(nodes: nodes);
+    _addNodePositions(
+      positions: positions,
       nodes: nodes,
     );
     _addAllEdges(nodes);
-
-    builder
-      ..levelSeparation = 100
-      ..siblingSeparation = 500
-      ..subtreeSeparation = 500
-      ..orientation = BuchheimWalkerConfiguration.ORIENTATION_BOTTOM_TOP;
   }
 
-  bool _filterNodes(ComponentWithDependencies componentWithDependencies) {
-    final component = componentWithDependencies.component;
-    final order = component.type?.order;
-    if (order == null) return false;
-    // if (component.name.contains("feature_core/")) return false;
-    return true;
-  }
-
-  void _addNodeAndPosition({
+  void _addNodes({
     required Iterable<ComponentNode> nodes,
   }) {
     for (var node in nodes) {
       graph.addNode(node);
-      _setUpNodePosition(
-        node: node,
-      );
+    }
+  }
 
-      final order = node.order ?? -1;
-      _incrementXOffsetOrder(
-        order: order,
-      );
+  void _addNodePositions({
+    required List<ComponentNodePosition> positions,
+    required Iterable<ComponentNode> nodes,
+  }) {
+    for (var position in positions) {
+      final node = nodes
+          .where((node) => node.component == position.component)
+          .firstOrNull;
+      node?.x = position.x;
+      node?.y = position.y;
     }
   }
 
@@ -74,28 +83,13 @@ class ComponentGraphFactory {
     required ComponentNode node,
     required Iterable<ComponentNode> nodes,
   }) {
-    for (var dependency in node.dependencies) {
+    final dependencies = node.dependencies;
+    for (var dependency in dependencies) {
       final dependencyNode = nodes.getDependencyNode(dependency);
       if (dependencyNode != null) {
         graph.addEdge(node, dependencyNode);
-        ArrowEdgeRenderer;
       }
     }
-  }
-
-  void _setUpNodePosition({
-    required ComponentNode node,
-  }) {
-    final order = node.order ?? -1;
-    node.x = xOffsetByOrder[order] ?? 0;
-    node.y = (order * nodeHeight) + nodeMargin;
-  }
-
-  void _incrementXOffsetOrder({
-    required int order,
-  }) {
-    final xOffsetOrder = xOffsetByOrder[order] ?? 0;
-    xOffsetByOrder[order] = xOffsetOrder + nodeWidth + nodeMargin;
   }
 
   ComponentNode _mapComponentToNode(

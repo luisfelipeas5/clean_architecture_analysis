@@ -6,6 +6,7 @@ import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis
 import 'package:clean_architecture_analysis/src/data/repositories/analysis_config/analysis_config_repository_impl.dart';
 import 'package:clean_architecture_analysis/src/data/repositories/file_system/file_system_repository_impl.dart';
 import 'package:clean_architecture_analysis/src/domain/repositories/analysis_config/analysis_config_repository.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/filter_components_graph/filter_components_graph.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_analysis_config/get_analysis_config.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_file.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_import.dart';
@@ -15,25 +16,33 @@ import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_dependencies_by_file.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/set_components_graph_node_positions/set_components_graph_node_positions.dart';
 
 class SetUpDependencyInjections {
-  final AppDependencyInjector appDependencyInjector;
+  final AppDependencyInjector injector;
   final bool debugMode;
   final String analysisConfigFilePath;
 
   SetUpDependencyInjections({
-    required this.appDependencyInjector,
+    required this.injector,
     required this.analysisConfigFilePath,
     required this.debugMode,
   });
 
   void call() {
-    appDependencyInjector
-        .putSingleton<GetComponentsWithDependencies>((injector) {
+    injector.putSingleton<GetComponentsWithDependencies>((injector) {
       return GetComponentsWithDependencies(
         getComponents: _getGetComponents(),
         getDependencies: _getGetDependencies(),
       );
+    });
+
+    injector.putSingleton((injector) {
+      return SetComponentsGraphNodePositions();
+    });
+
+    injector.putSingleton((injector) {
+      return FilterComponentsGraph();
     });
   }
 

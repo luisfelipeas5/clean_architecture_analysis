@@ -15,14 +15,23 @@ class DependenciesGraphPage extends StatefulWidget {
 }
 
 class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
-  final componentGraphFactory = ComponentGraphFactory(
-    nodeWidth: NodeWidget.width,
-    nodeHeight: 75,
-  );
+  late ComponentGraphFactory componentGraphFactory;
 
   @override
   void initState() {
     super.initState();
+    componentGraphFactory = ComponentGraphFactory(
+      nodeWidth: NodeWidget.width,
+      nodeHeight: 75,
+      setComponentsGraphNodePositions: appDependencyInjector(),
+      filterGraphComponents: appDependencyInjector(),
+    );
+    _loadGraph();
+  }
+
+  @override
+  void didUpdateWidget(covariant DependenciesGraphPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
     _loadGraph();
   }
 
@@ -31,7 +40,6 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
         appDependencyInjector<GetComponentsWithDependencies>();
     final result = await getComponentsWithDependencies();
     if (result.isFail()) return print("❌ Failed to get dependencies.");
-
 
     final List<ComponentWithDependencies> componentWithDependenciesList =
         result.data!;
@@ -62,7 +70,6 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   AppGraph _buildAppGraph() {
     return AppGraph(
       graph: componentGraphFactory.graph,
-      builder: componentGraphFactory.builder,
       nodeWidgetBuilder: (Node node) {
         return ComponentNodeWidget(
           componentNode: node as ComponentNode,
@@ -70,7 +77,4 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
       },
     );
   }
-
 }
-
-

@@ -4,17 +4,17 @@ import 'package:graphview/GraphView.dart';
 class AppGraph extends StatelessWidget {
   const AppGraph({
     required this.graph,
-    required this.builder,
     required this.nodeWidgetBuilder,
     super.key,
   });
 
   final Graph graph;
-  final BuchheimWalkerConfiguration builder;
   final NodeWidgetBuilder nodeWidgetBuilder;
 
   @override
   Widget build(BuildContext context) {
+    final buchheimWalkerConfiguration = getConfiguration();
+
     return InteractiveViewer(
       constrained: false,
       boundaryMargin: EdgeInsets.all(100),
@@ -23,7 +23,7 @@ class AppGraph extends StatelessWidget {
       child: GraphView(
         graph: graph,
         algorithm: BuchheimWalkerAlgorithm(
-          builder,
+          buchheimWalkerConfiguration,
           ArrowEdgeRenderer(),
         ),
         paint: Paint()
@@ -33,5 +33,13 @@ class AppGraph extends StatelessWidget {
         builder: nodeWidgetBuilder,
       ),
     );
+  }
+
+  BuchheimWalkerConfiguration getConfiguration() {
+    return BuchheimWalkerConfiguration()
+      ..levelSeparation = 100
+      ..siblingSeparation = 500
+      ..subtreeSeparation = 500
+      ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
   }
 }

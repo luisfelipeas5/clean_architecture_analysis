@@ -10,7 +10,7 @@ final AppDependencyInjector appDependencyInjector =
 
 void main() {
   final setUpDependencyInjections = SetUpDependencyInjections(
-    appDependencyInjector: appDependencyInjector,
+    injector: appDependencyInjector,
     debugMode: kDebugMode,
     analysisConfigFilePath:
         "assets/inputs/analysis_configs/rider_flutter/rider_flutter_analysis_config.json",
