@@ -2,10 +2,19 @@ import 'package:clean_architecture_analysis/src/architecture_core/result/result.
 import 'package:clean_architecture_analysis/src/domain/entities/components/component.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_node_position.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
+import 'package:clean_architecture_analysis/src/domain/entities/order/order_circuference.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/get_order_circuferences/get_order_circuferences.dart';
 
 class SetComponentsGraphNodePositions {
+  final GetOrderCircuferences getOrderCircuferences;
+
+  SetComponentsGraphNodePositions({
+    required this.getOrderCircuferences,
+  });
+
   late Map<int, double> xOffsetByOrder;
   late double nodeWidth, nodeHeight, nodeMargin;
+  late Map<int, OrderCircuference> orderCircuferences;
 
   Result<List<ComponentNodePosition>> call({
     required List<ComponentWithDependencies> components,
@@ -17,13 +26,11 @@ class SetComponentsGraphNodePositions {
     this.nodeWidth = nodeWidth;
     this.nodeHeight = nodeHeight;
     this.nodeMargin = nodeMargin;
+    orderCircuferences = getOrderCircuferences(
+      componentsWithDependencies: components,
+    ).data!;
 
-    components.sort((a, b) {
-      return _sortComponents(
-        a: a,
-        b: b,
-      );
-    });
+    components.sort(_sortComponents);
     final componentNodePositions = components.map((component) {
       return _getPosition(
         componentWithDependencies: component,
@@ -33,13 +40,11 @@ class SetComponentsGraphNodePositions {
     return Result.success(componentNodePositions);
   }
 
-  int _sortComponents({
-    required ComponentWithDependencies a,
-    required ComponentWithDependencies b,
-  }) {
-    final aName = a.component.name.split('/').first;
-    final bName = b.component.name.split('/').first;
-    return aName.compareTo(bName);
+  int _sortComponents(
+      ComponentWithDependencies a, ComponentWithDependencies b) {
+    final aOrder = a.component.type?.order ?? -1;
+    final bOrder = b.component.type?.order ?? -1;
+    return aOrder - bOrder;
   }
 
   ComponentNodePosition _getPosition({

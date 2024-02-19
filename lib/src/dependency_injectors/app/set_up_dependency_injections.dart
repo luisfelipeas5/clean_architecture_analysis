@@ -16,6 +16,7 @@ import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_dependencies_by_file.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/get_order_circuferences/get_order_circuferences.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/set_components_graph_node_positions/set_components_graph_node_positions.dart';
 
 class SetUpDependencyInjections {
@@ -38,7 +39,13 @@ class SetUpDependencyInjections {
     });
 
     injector.putSingleton((injector) {
-      return SetComponentsGraphNodePositions();
+      return GetOrderCircuferences();
+    });
+
+    injector.putSingleton((injector) {
+      return SetComponentsGraphNodePositions(
+        getOrderCircuferences: injector(),
+      );
     });
 
     injector.putSingleton((injector) {
