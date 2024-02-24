@@ -4,6 +4,7 @@ import 'package:clean_architecture_analysis/src/domain/entities/components/compo
 import 'package:clean_architecture_analysis/src/domain/use_cases/filter_components_graph/filter_components_graph.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/set_components_graph_node_positions/set_components_graph_node_positions.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
+import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
 const double nodeMargin = 16;
@@ -34,8 +35,7 @@ class ComponentGraphFactory {
       components: filteredComponents,
     ).data!;
 
-    final nodes =
-        filteredComponents.map(_mapComponentToNode).toList();
+    final nodes = filteredComponents.map(_mapComponentToNode).toList();
 
     _addNodes(nodes: nodes);
     _addNodePositions(
@@ -79,11 +79,20 @@ class ComponentGraphFactory {
     required ComponentNode node,
     required Iterable<ComponentNode> nodes,
   }) {
+    final wrongEdgePaint = Paint()
+      ..color = Colors.red
+      ..strokeWidth = 1
+      ..style = PaintingStyle.stroke;
     final dependencies = node.dependencies;
     for (var dependency in dependencies) {
       final dependencyNode = nodes.getDependencyNode(dependency);
       if (dependencyNode != null) {
-        graph.addEdge(node, dependencyNode);
+        final wrongEdge = dependency.wrongOrder;
+        graph.addEdge(
+          node,
+          dependencyNode,
+          paint: wrongEdge ? wrongEdgePaint : null,
+        );
       }
     }
   }
