@@ -1,0 +1,5 @@
+[ ] - Position the nodes properly
+[ ] - Paint arrows with a different color when clean archtecture rule is violated
+[ ] - Fade nodes that aren't in focus or has no edge with which is in focus
+[ ] - When click on nodes, remove from graph everything else that don't be part of the sub-graph
+[ ] - Draw/paint the circles of Clean Archtecture
