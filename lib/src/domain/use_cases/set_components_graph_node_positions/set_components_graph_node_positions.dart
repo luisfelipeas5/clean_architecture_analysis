@@ -12,7 +12,6 @@ class SetComponentsGraphNodePositions {
     required this.getOrderCircuferences,
   });
 
-  late Map<int, double> xOffsetByOrder;
   late double nodeWidth, nodeHeight, nodeMargin;
   late Map<int, OrderCircuference> orderCircuferences;
 
@@ -22,7 +21,6 @@ class SetComponentsGraphNodePositions {
     required double nodeHeight,
     required double nodeMargin,
   }) {
-    xOffsetByOrder = <int, double>{};
     this.nodeWidth = nodeWidth;
     this.nodeHeight = nodeHeight;
     this.nodeMargin = nodeMargin;
@@ -30,7 +28,6 @@ class SetComponentsGraphNodePositions {
       componentsWithDependencies: components,
     ).data!;
 
-    components.sort(_sortComponents);
     final componentNodePositions = components.map((component) {
       return _getPosition(
         componentWithDependencies: component,
@@ -38,13 +35,6 @@ class SetComponentsGraphNodePositions {
       );
     }).toList();
     return Result.success(componentNodePositions);
-  }
-
-  int _sortComponents(
-      ComponentWithDependencies a, ComponentWithDependencies b) {
-    final aOrder = a.component.type?.order ?? -1;
-    final bOrder = b.component.type?.order ?? -1;
-    return aOrder - bOrder;
   }
 
   ComponentNodePosition _getPosition({
@@ -55,10 +45,6 @@ class SetComponentsGraphNodePositions {
       component: componentWithDependencies.component,
     );
 
-    final order = componentWithDependencies.component.type?.order ?? -1;
-    _incrementXOffsetOrder(
-      order: order,
-    );
     return ComponentNodePosition(
       component: componentWithDependencies.component,
       x: x,
@@ -70,15 +56,10 @@ class SetComponentsGraphNodePositions {
     required Component component,
   }) {
     final order = component.type?.order ?? -1;
-    final x = xOffsetByOrder[order] ?? 0;
-    final y = (order * nodeHeight) + nodeMargin;
-    return (x, y);
+    final orderCircuference = orderCircuferences[order];
+    if (orderCircuference == null) return (0, 0);
+
+    return orderCircuference.getNextComponentCoordinates();
   }
 
-  void _incrementXOffsetOrder({
-    required int order,
-  }) {
-    final xOffsetOrder = xOffsetByOrder[order] ?? 0;
-    xOffsetByOrder[order] = xOffsetOrder + nodeWidth + nodeMargin;
-  }
 }

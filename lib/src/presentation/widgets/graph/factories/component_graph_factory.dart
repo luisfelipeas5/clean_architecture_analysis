@@ -26,7 +26,6 @@ class ComponentGraphFactory {
     required List<ComponentWithDependencies> componentWithDependenciesList,
   }) {
     graph = Graph();
-    // graph.isTree = true;
 
     final filteredComponents =
         filterGraphComponents(components: componentWithDependenciesList).data!;
@@ -39,7 +38,7 @@ class ComponentGraphFactory {
     ).data!;
 
     final nodes =
-        componentWithDependenciesList.map(_mapComponentToNode).toList();
+        filteredComponents.map(_mapComponentToNode).toList();
 
     _addNodes(nodes: nodes);
     _addNodePositions(
