@@ -32,9 +32,6 @@ class ComponentGraphFactory {
 
     final positions = setComponentsGraphNodePositions(
       components: filteredComponents,
-      nodeHeight: nodeHeight,
-      nodeWidth: nodeWidth,
-      nodeMargin: nodeMargin,
     ).data!;
 
     final nodes =

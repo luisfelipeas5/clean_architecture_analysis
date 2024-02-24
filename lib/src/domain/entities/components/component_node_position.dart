@@ -2,11 +2,12 @@ import 'package:clean_architecture_analysis/src/domain/entities/components/compo
 
 class ComponentNodePosition {
   final Component component;
-  final double x, y;
+  final double x, y, angle;
 
   ComponentNodePosition({
     required this.component,
     required this.x,
     required this.y,
+    required this.angle,
   });
 }

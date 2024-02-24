@@ -27,19 +27,26 @@ class OrderCircuference {
 
   double _nextAngle = 0;
 
-  (double, double) getNextComponentCoordinates() {
+  (double, double, double) getNextComponentCoordinates({
+    required double? preferrableAngle,
+  }) {
     // Following: https://stackoverflow.com/a/839931/4756152
     // x = cx + r * cos(a)
     // y = cy + r * sin(a)
     final (cx, cy) = center;
     final r = ratio;
 
-    final a = _deg2rad(_nextAngle);
+    final angle = _nextAngle;
+    final a = _deg2rad(angle);
     _incrementAngle();
 
     final x = cx + (r * cos(a));
     final y = cy + (r * sin(a));
-    return (x, y);
+    return (
+      x,
+      y,
+      angle,
+    );
   }
 
   _incrementAngle() {
