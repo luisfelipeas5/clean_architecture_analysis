@@ -16,7 +16,9 @@ class AppGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final customAlgorithm = CustomAlgorithm();
+    final customAlgorithm = CustomAlgorithm(
+      renderer: ArrowEdgeRenderer(),
+    );
     final maxSize = customAlgorithm.getMaxSize(graph);
     return InteractiveViewer(
       constrained: false,
