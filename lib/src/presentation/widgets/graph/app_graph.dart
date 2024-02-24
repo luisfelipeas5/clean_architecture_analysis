@@ -1,3 +1,4 @@
+import 'package:clean_architecture_analysis/src/presentation/widgets/graph/algorithm/custom_algorithm.dart';
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
@@ -13,8 +14,6 @@ class AppGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buchheimWalkerConfiguration = getConfiguration();
-
     return InteractiveViewer(
       constrained: false,
       boundaryMargin: EdgeInsets.all(100),
@@ -22,10 +21,7 @@ class AppGraph extends StatelessWidget {
       maxScale: 5.6,
       child: GraphView(
         graph: graph,
-        algorithm: BuchheimWalkerAlgorithm(
-          buchheimWalkerConfiguration,
-          ArrowEdgeRenderer(),
-        ),
+        algorithm: CustomAlgorithm(),
         paint: Paint()
           ..color = Colors.green
           ..strokeWidth = 1
@@ -33,13 +29,5 @@ class AppGraph extends StatelessWidget {
         builder: nodeWidgetBuilder,
       ),
     );
-  }
-
-  BuchheimWalkerConfiguration getConfiguration() {
-    return BuchheimWalkerConfiguration()
-      ..levelSeparation = 100
-      ..siblingSeparation = 500
-      ..subtreeSeparation = 500
-      ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
   }
 }
