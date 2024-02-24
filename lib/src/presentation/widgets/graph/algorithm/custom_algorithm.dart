@@ -3,6 +3,10 @@ import 'dart:ui';
 import 'package:graphview/GraphView.dart';
 
 class CustomAlgorithm extends Algorithm {
+  CustomAlgorithm() {
+    renderer = ArrowEdgeRenderer();
+  }
+
   @override
   void init(Graph? graph) {}
 
