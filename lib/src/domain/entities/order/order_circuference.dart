@@ -37,7 +37,6 @@ class OrderCircuference {
     final (cx, cy) = center;
     final r = ratio;
 
-    print("anglesTaken $anglesTaken");
     final angle = _getNextAngle(preferrableAngle);
     final a = degressToRadians(angle);
 
@@ -52,23 +51,18 @@ class OrderCircuference {
 
   double _getNextAngle(double? preferrableAngle) {
     final indexToStart = _getIndexToStart(preferrableAngle);
-    print("indexToStart $indexToStart");
 
     var angleIndex = indexToStart;
     for (var i = 0; i < anglesTaken.length; i++) {
       final rightFinger = _getFingerIndexFixed(indexToStart + i);
-      print("rightFinger $rightFinger");
       if (!anglesTaken[rightFinger]) {
         angleIndex = rightFinger;
-        print("pick rightFinger!");
         break;
       }
 
       final leftFinger = _getFingerIndexFixed(indexToStart - i);
-      print("leftFinger $leftFinger");
       if (!anglesTaken[leftFinger]) {
         angleIndex = leftFinger;
-        print("pick leftFinger!");
         break;
       }
     }

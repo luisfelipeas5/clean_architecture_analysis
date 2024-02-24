@@ -77,17 +77,13 @@ class SetComponentsGraphNodePositions {
     final orderCircuference = orderCircuferences[order];
     if (orderCircuference == null) return (0, 0, 0);
 
-    print("component ${component.name}");
     final dependenciesAngleAverage = _getDependenciesAngleAverage(
       componentWithDependencies,
     );
-    print("dependenciesAngleAverage $dependenciesAngleAverage");
     final coordinates = orderCircuference.getNextComponentCoordinates(
       preferrableAngle: dependenciesAngleAverage,
     );
 
-    print("angle ${coordinates.$3}");
-    print("\n");
     return coordinates;
   }
 
@@ -104,7 +100,6 @@ class SetComponentsGraphNodePositions {
 
     final dependenciesAngles =
         filterDependencies.map(_mapFirstNodePosition).map((e) => e.angle);
-    print("dependenciesAngles $dependenciesAngles");
 
     //follow "average angle" algorithm from: https://stackoverflow.com/a/491784/4756152
     double cosSum = 0;
