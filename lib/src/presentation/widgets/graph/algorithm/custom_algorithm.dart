@@ -12,6 +12,10 @@ class CustomAlgorithm extends Algorithm {
 
   @override
   Size run(Graph? graph, double shiftX, double shiftY) {
+    return getMaxSize(graph);
+  }
+
+  Size getMaxSize(Graph? graph) {
     double maxX = 0;
     double maxY = 0;
     for (var node in graph?.nodes ?? <Node>[]) {
@@ -22,7 +26,7 @@ class CustomAlgorithm extends Algorithm {
         maxY = node.y;
       }
     }
-    return Size(maxX + 100, maxY + 100);
+    return Size(maxX, maxY);
   }
 
   @override
