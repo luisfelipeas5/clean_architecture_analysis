@@ -22,3 +22,15 @@ class ComponentNode extends Node {
     return componentWithDependencies.component.type?.order;
   }
 }
+
+extension NodeExtension on Iterable<ComponentNode> {
+  ComponentNode? getDependencyNode(ComponentDependency dependency) {
+    for (var node in this) {
+      final componentNode = node.component;
+      if (componentNode.name == dependency.component.name) {
+        return node;
+      }
+    }
+    return null;
+  }
+}

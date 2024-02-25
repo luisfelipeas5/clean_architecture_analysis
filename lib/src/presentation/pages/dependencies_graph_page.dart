@@ -16,7 +16,7 @@ class DependenciesGraphPage extends StatefulWidget {
 
 class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   late ComponentGraphFactory _componentGraphFactory;
-  ComponentNode? _componentNodeOnFocus;
+  ComponentNode? _componentNodeSelected;
 
   @override
   void initState() {
@@ -84,10 +84,13 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   }
 
   void _onComponentNodeTap(ComponentNode componentNode) {
-    if (_componentNodeOnFocus == componentNode) {
-      _componentNodeOnFocus = null;
-    } else {
-      _componentNodeOnFocus = componentNode;
-    }
+    setState(() {
+      if (_componentNodeSelected == componentNode) {
+        _componentNodeSelected = null;
+      } else {
+        _componentNodeSelected = componentNode;
+      }
+      _componentGraphFactory.setComponentSelected(_componentNodeSelected);
+    });
   }
 }
