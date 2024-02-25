@@ -2,11 +2,17 @@ import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/node_widget.dart';
 import 'package:flutter/material.dart';
 
+typedef OnComponentNodeTap = void Function(
+  ComponentNode componentNode,
+);
+
 class ComponentNodeWidget extends StatelessWidget {
   final ComponentNode componentNode;
+  final OnComponentNodeTap? onTap;
 
   const ComponentNodeWidget({
     required this.componentNode,
+    this.onTap,
     super.key,
   });
 
@@ -14,6 +20,7 @@ class ComponentNodeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return NodeWidget(
       text: _text,
+      onTap: () => onTap?.call(componentNode),
     );
   }
 

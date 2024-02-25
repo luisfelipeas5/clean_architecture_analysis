@@ -15,12 +15,13 @@ class DependenciesGraphPage extends StatefulWidget {
 }
 
 class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
-  late ComponentGraphFactory componentGraphFactory;
+  late ComponentGraphFactory _componentGraphFactory;
+  ComponentNode? _componentNodeOnFocus;
 
   @override
   void initState() {
     super.initState();
-    componentGraphFactory = ComponentGraphFactory(
+    _componentGraphFactory = ComponentGraphFactory(
       nodeWidth: NodeWidget.width,
       nodeHeight: 75,
       setComponentsGraphNodePositions: appDependencyInjector(),
@@ -43,7 +44,7 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
 
     final List<ComponentWithDependencies> componentWithDependenciesList =
         result.data!;
-    componentGraphFactory.load(
+    _componentGraphFactory.load(
       componentWithDependenciesList: componentWithDependenciesList,
     );
     setState(() {});
@@ -57,7 +58,7 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   }
 
   Widget _buildBody() {
-    if (componentGraphFactory.graph.nodes.isEmpty) return _buildLoader();
+    if (_componentGraphFactory.graph.nodes.isEmpty) return _buildLoader();
     return _buildAppGraph();
   }
 
@@ -69,12 +70,24 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
 
   AppGraph _buildAppGraph() {
     return AppGraph(
-      graph: componentGraphFactory.graph,
-      nodeWidgetBuilder: (Node node) {
-        return ComponentNodeWidget(
-          componentNode: node as ComponentNode,
-        );
-      },
+      graph: _componentGraphFactory.graph,
+      nodeWidgetBuilder: _nodeWidgetBuilder,
     );
+  }
+
+  Widget _nodeWidgetBuilder(Node node) {
+    final componentNode = node as ComponentNode;
+    return ComponentNodeWidget(
+      componentNode: componentNode,
+      onTap: _onComponentNodeTap,
+    );
+  }
+
+  void _onComponentNodeTap(ComponentNode componentNode) {
+    if (_componentNodeOnFocus == componentNode) {
+      _componentNodeOnFocus = null;
+    } else {
+      _componentNodeOnFocus = componentNode;
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:graphview/GraphView.dart';
@@ -18,17 +19,19 @@ class CustomAlgorithm extends Algorithm {
   }
 
   Size getMaxSize(Graph? graph) {
-    double maxX = 0;
-    double maxY = 0;
+    var left = double.infinity;
+    var top = double.infinity;
+    var right = double.negativeInfinity;
+    var bottom = double.negativeInfinity;
+
     for (var node in graph?.nodes ?? <Node>[]) {
-      if (node.x > maxX) {
-        maxX = node.x;
-      }
-      if (node.y > maxY) {
-        maxY = node.y;
-      }
+      left = min(left, node.x - node.width);
+      top = min(top, node.y - node.height);
+      right = max(right, node.x + node.width);
+      bottom = max(bottom, node.y + node.height);
     }
-    return Size(maxX, maxY);
+
+    return Size(right - left, bottom - top);
   }
 
   @override
