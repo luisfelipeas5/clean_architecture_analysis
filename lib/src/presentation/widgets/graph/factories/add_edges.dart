@@ -1,4 +1,5 @@
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/node_state.dart';
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
@@ -29,6 +30,10 @@ void _addEdges({
     final dependencyNode = nodes.getDependencyNode(dependency);
     if (dependencyNode != null) {
       final wrongEdge = dependency.wrongOrder;
+      if (wrongEdge) {
+        node.state = NodeState.error;
+        dependencyNode.state = NodeState.error;
+      }
       graph.addEdge(
         node,
         dependencyNode,

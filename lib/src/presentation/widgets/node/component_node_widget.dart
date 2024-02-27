@@ -20,6 +20,7 @@ class ComponentNodeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return NodeWidget(
       text: _text,
+      state: componentNode.state,
       onTap: () => onTap?.call(componentNode),
     );
   }

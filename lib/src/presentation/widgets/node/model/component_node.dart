@@ -1,6 +1,7 @@
 import 'package:clean_architecture_analysis/src/domain/entities/components/component.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_dependency.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/node_state.dart';
 import 'package:graphview/GraphView.dart';
 
 class ComponentNode extends Node {
@@ -8,8 +9,11 @@ class ComponentNode extends Node {
 
   ComponentNode({
     required this.componentWithDependencies,
+    this.state = NodeState.normal,
   }) : super.Id(componentWithDependencies);
 
+  NodeState state;
+  
   Component get component {
     return componentWithDependencies.component;
   }

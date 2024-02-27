@@ -6,8 +6,6 @@ import 'package:clean_architecture_analysis/src/presentation/widgets/graph/facto
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
 import 'package:graphview/GraphView.dart';
 
-const double nodeMargin = 16;
-
 class ComponentGraphFactory {
   final double nodeWidth, nodeHeight;
   final FilterComponentsGraph filterGraphComponents;
