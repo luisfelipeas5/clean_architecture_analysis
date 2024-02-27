@@ -1,7 +1,4 @@
-import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
-import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/node_state.dart';
-import 'package:flutter/material.dart';
-import 'package:graphview/GraphView.dart';
+part of '../component_graph_controller.dart';
 
 void addAllEdges({
   required Iterable<ComponentNode> nodes,

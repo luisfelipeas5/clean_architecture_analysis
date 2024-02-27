@@ -1,18 +1,24 @@
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_dependency.dart';
+import 'package:clean_architecture_analysis/src/domain/entities/components/component_node_position.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/filter_components_graph/filter_components_graph.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/set_components_graph_node_positions/set_components_graph_node_positions.dart';
-import 'package:clean_architecture_analysis/src/presentation/widgets/graph/factories/add_edges.dart';
-import 'package:clean_architecture_analysis/src/presentation/widgets/graph/factories/add_node_positions.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/node_state.dart';
+import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
-class ComponentGraphFactory {
+part 'controller_helpers/add_edges.dart';
+part 'controller_helpers/add_node_positions.dart';
+part 'controller_helpers/select_component_and_dependencies.dart';
+part 'controller_helpers/unselect_components.dart';
+
+class ComponentGraphController {
   final double nodeWidth, nodeHeight;
   final FilterComponentsGraph filterGraphComponents;
   final SetComponentsGraphNodePositions setComponentsGraphNodePositions;
 
-  ComponentGraphFactory({
+  ComponentGraphController({
     required this.nodeWidth,
     required this.nodeHeight,
     required this.setComponentsGraphNodePositions,
@@ -20,7 +26,8 @@ class ComponentGraphFactory {
   });
 
   late Graph graph = Graph();
-  List<ComponentNode> selectedComponentNodes = List.empty(growable: true);
+
+  ComponentNode? _componentNodeSelected;
 
   void load({
     required List<ComponentWithDependencies> componentWithDependenciesList,
@@ -49,45 +56,17 @@ class ComponentGraphFactory {
     );
   }
 
-  void unselectComponents() {
-    for (var node in graph.nodes) {
-      (node as ComponentNode).selected = null;
+  void onComponentNodeTap(ComponentNode componentNode) {
+    if (_componentNodeSelected == componentNode) {
+      _componentNodeSelected = null;
+      graph.nodes.forEach(unselectComponentsWithNull);
+    } else {
+      _componentNodeSelected = componentNode;
+      graph.nodes.forEach(unselectComponentsWithFalse);
+      selectComponent(
+        graph: graph,
+        componentNodeSelected: componentNode,
+      );
     }
-    selectedComponentNodes = List.empty(growable: true);
-  }
-
-  void unselectComponentsBeforeSelect() {
-    for (var node in graph.nodes) {
-      (node as ComponentNode).selected = false;
-    }
-    selectedComponentNodes = List.empty(growable: true);
-  }
-
-  void setComponentSelected(ComponentNode? componentNodeSelected) {
-    if (componentNodeSelected == null) return;
-    if (componentNodeSelected.selected == true) return;
-
-    componentNodeSelected.selected = true;
-    selectedComponentNodes.add(componentNodeSelected);
-
-    for (var node in graph.nodes) {
-      final possibleDependencyNode = node as ComponentNode;
-      if (_hasDependency(
-        dependencies: componentNodeSelected.dependencies,
-        componentNode: possibleDependencyNode,
-      )) {
-        setComponentSelected(possibleDependencyNode);
-      }
-    }
-  }
-
-  bool _hasDependency({
-    required List<ComponentDependency> dependencies,
-    required ComponentNode componentNode,
-  }) {
-    final index = dependencies.indexWhere((dependency) {
-      return dependency.component.name == componentNode.component.name;
-    });
-    return index >= 0;
   }
 }

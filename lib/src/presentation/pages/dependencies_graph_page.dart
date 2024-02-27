@@ -2,7 +2,7 @@ import 'package:clean_architecture_analysis/main.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/app_graph.dart';
-import 'package:clean_architecture_analysis/src/presentation/widgets/graph/factories/component_graph_factory.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/graph/controller/component_graph_controller.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/component_node_widget.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/node_widget.dart';
@@ -15,13 +15,12 @@ class DependenciesGraphPage extends StatefulWidget {
 }
 
 class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
-  late ComponentGraphFactory _componentGraphFactory;
-  ComponentNode? _componentNodeSelected;
+  late ComponentGraphController _componentGraphController;
 
   @override
   void initState() {
     super.initState();
-    _componentGraphFactory = ComponentGraphFactory(
+    _componentGraphController = ComponentGraphController(
       nodeWidth: NodeWidget.width,
       nodeHeight: 75,
       setComponentsGraphNodePositions: appDependencyInjector(),
@@ -44,7 +43,7 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
 
     final List<ComponentWithDependencies> componentWithDependenciesList =
         result.data!;
-    _componentGraphFactory.load(
+    _componentGraphController.load(
       componentWithDependenciesList: componentWithDependenciesList,
     );
     setState(() {});
@@ -58,7 +57,7 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   }
 
   Widget _buildBody() {
-    if (_componentGraphFactory.graph.nodes.isEmpty) return _buildLoader();
+    if (_componentGraphController.graph.nodes.isEmpty) return _buildLoader();
     return _buildAppGraph();
   }
 
@@ -70,7 +69,7 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
 
   AppGraph _buildAppGraph() {
     return AppGraph(
-      graph: _componentGraphFactory.graph,
+      graph: _componentGraphController.graph,
       nodeWidgetBuilder: _nodeWidgetBuilder,
     );
   }
@@ -84,15 +83,7 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   }
 
   void _onComponentNodeTap(ComponentNode componentNode) {
-    setState(() {
-      if (_componentNodeSelected == componentNode) {
-        _componentNodeSelected = null;
-        _componentGraphFactory.unselectComponents();
-      } else {
-        _componentNodeSelected = componentNode;
-        _componentGraphFactory.unselectComponentsBeforeSelect();
-        _componentGraphFactory.setComponentSelected(_componentNodeSelected);
-      }
-    });
+    _componentGraphController.onComponentNodeTap(componentNode);
+    setState(() {});
   }
 }
