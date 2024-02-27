@@ -10,9 +10,11 @@ class ComponentNode extends Node {
   ComponentNode({
     required this.componentWithDependencies,
     this.state = NodeState.normal,
+    this.selected,
   }) : super.Id(componentWithDependencies);
 
   NodeState state;
+  bool? selected;
   
   Component get component {
     return componentWithDependencies.component;

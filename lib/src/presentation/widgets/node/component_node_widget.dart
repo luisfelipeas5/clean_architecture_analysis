@@ -21,6 +21,7 @@ class ComponentNodeWidget extends StatelessWidget {
     return NodeWidget(
       text: _text,
       state: componentNode.state,
+      selected: componentNode.selected,
       onTap: () => onTap?.call(componentNode),
     );
   }

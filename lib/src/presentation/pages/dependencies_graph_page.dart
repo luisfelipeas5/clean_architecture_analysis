@@ -87,10 +87,12 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
     setState(() {
       if (_componentNodeSelected == componentNode) {
         _componentNodeSelected = null;
+        _componentGraphFactory.unselectComponents();
       } else {
         _componentNodeSelected = componentNode;
+        _componentGraphFactory.unselectComponentsBeforeSelect();
+        _componentGraphFactory.setComponentSelected(_componentNodeSelected);
       }
-      _componentGraphFactory.setComponentSelected(_componentNodeSelected);
     });
   }
 }

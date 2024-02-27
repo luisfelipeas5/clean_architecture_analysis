@@ -6,11 +6,13 @@ class NodeWidget extends StatelessWidget {
   final NodeState state;
   final VoidCallback? onTap;
   final String text;
+  final bool? selected;
 
   const NodeWidget({
     required this.text,
     required this.state,
     this.onTap,
+    this.selected,
     super.key,
   });
 
@@ -36,7 +38,7 @@ class NodeWidget extends StatelessWidget {
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        color: _getBackgroundColor(),
+        color: _getBackgroundColor()?.withOpacity(_getBackgroundOpacity()),
       ),
       child: child,
     );
@@ -48,6 +50,11 @@ class NodeWidget extends StatelessWidget {
       NodeState.error => Colors.red[400],
       _ => Colors.blue[100],
     };
+  }
+
+  double _getBackgroundOpacity() {
+    if (selected != false) return 1;
+    return 0.3;
   }
 
   Widget _buildText(BuildContext context) {
