@@ -42,8 +42,12 @@ class GetDependenciesByFile {
         continue;
       }
 
+      final dependencyOrder = componentByImport!.type?.order ?? -1;
+      final order = component.type?.order ?? -1;
+      final wrongOrder = dependencyOrder > order;
       final componentDependency = ComponentDependency(
-        component: componentByImport!,
+        component: componentByImport,
+        wrongOrder: wrongOrder,
       );
       if (componentDependencies.contains(componentDependency)) continue;
       componentDependencies.add(componentDependency);

@@ -1,0 +1,13 @@
+Algorithm for draw Clean Architecture Graph
+
+1. List components
+2. List dependencies for each component
+3. Order components by smallest component.order first to the biggest
+4. Creates circurference axis for each order:
+  - Calculate the size of the circurference of each order
+    - ratio = (number of components) x order * constant
+  - Save the calculation
+5. For each component:
+  - Get order axis circurference calculation
+  - Calculate the component place on order circurference axis based on dependencies with smaller order on insider circuference
+  - If coordinate is already taken, take the next coordinates

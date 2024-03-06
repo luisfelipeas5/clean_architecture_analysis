@@ -1,77 +1,56 @@
+import 'package:clean_architecture_analysis/src/architecture_core/dependency_injector/app/app_dependency_injector.dart';
 import 'package:clean_architecture_analysis/src/data/data_sources/file_system/file_system_data_source.dart';
 import 'package:clean_architecture_analysis/src/data/data_sources/file_system/file_system_data_source_impl.dart';
 import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/analysis_config_local_data_source.dart';
-import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/analysis_config_local_data_source_impl.dart';
+import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/app_analysis_config_local_data_source.dart';
 import 'package:clean_architecture_analysis/src/data/repositories/analysis_config/analysis_config_repository_impl.dart';
 import 'package:clean_architecture_analysis/src/data/repositories/file_system/file_system_repository_impl.dart';
 import 'package:clean_architecture_analysis/src/domain/repositories/analysis_config/analysis_config_repository.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/filter_components_graph/filter_components_graph.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_analysis_config/get_analysis_config.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_file.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_import.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_relative_path.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_types.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_components.dart';
-import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_components_and_types.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_dependencies_by_file.dart';
-import 'package:clean_architecture_analysis/src/presentation/csv_exporters/components_csv_exporter.dart';
-import 'package:clean_architecture_analysis/src/presentation/csv_exporters/csv_exporter.dart';
-import 'package:clean_architecture_analysis/src/presentation/json_exporters/dependencies_json_exporter.dart';
-import 'package:clean_architecture_analysis/src/presentation/printers/components_dependencies_printer.dart';
-import 'package:clean_architecture_analysis/src/presentation/printers/components_printer.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/get_order_circuferences/get_order_circuferences.dart';
+import 'package:clean_architecture_analysis/src/domain/use_cases/set_components_graph_node_positions/set_components_graph_node_positions.dart';
 
-class DependencyInjector {
-  final String analysisConfigFilePath;
+class SetUpDependencyInjections {
+  final AppDependencyInjector injector;
   final bool debugMode;
+  final String analysisConfigFilePath;
 
-  const DependencyInjector({
+  SetUpDependencyInjections({
+    required this.injector,
     required this.analysisConfigFilePath,
     required this.debugMode,
   });
 
-  ComponentsPrinter getComponentsPrinter() {
-    return ComponentsPrinter(
-      getComponentsAndTypes: _getGetComponentsAndTypes(),
-    );
-  }
+  void call() {
+    injector.putSingleton<GetComponentsWithDependencies>((injector) {
+      return GetComponentsWithDependencies(
+        getComponents: _getGetComponents(),
+        getDependencies: _getGetDependencies(),
+      );
+    });
 
-  ComponentsDependenciesPrinter getDependenciesPrinter() {
-    return ComponentsDependenciesPrinter(
-      getComponentsWithDependencies: _getGetComponentWithDependencies(),
-    );
-  }
+    injector.putSingleton((injector) {
+      return GetOrderCircuferences();
+    });
 
-  CsvExporter getCsvExporter() {
-    return CsvExporter(
-      componentsCsvExporter: _getComponentsCsvExporter(),
-    );
-  }
+    injector.putSingleton((injector) {
+      return SetComponentsGraphNodePositions(
+        getOrderCircuferences: injector(),
+      );
+    });
 
-  ComponentsCsvExporter _getComponentsCsvExporter() {
-    return ComponentsCsvExporter(
-      getComponents: _getGetComponents(),
-    );
-  }
-
-  DependenciesJsonExporter getDependenciesJsonExporter() {
-    return DependenciesJsonExporter(
-      getComponentsWithDependencies: _getGetComponentWithDependencies(),
-    );
-  }
-
-  GetComponentsAndTypes _getGetComponentsAndTypes() {
-    return GetComponentsAndTypes(
-      getComponents: _getGetComponents(),
-      getComponentTypes: _getGetComponentTypes(),
-    );
-  }
-
-  GetComponentsWithDependencies _getGetComponentWithDependencies() {
-    return GetComponentsWithDependencies(
-      getComponents: _getGetComponents(),
-      getDependencies: _getGetDependencies(),
-    );
+    injector.putSingleton((injector) {
+      return FilterComponentsGraph();
+    });
   }
 
   GetComponents _getGetComponents() {
@@ -145,7 +124,7 @@ class DependencyInjector {
   FileSystemDataSource _getFileSystemDataSource() => FileSystemDataSourceImpl();
 
   AnalysisConfigLocalDataSource _getAnalysisConfigLocalDataSource() {
-    return AnalysisConfigLocalDataSourceImpl(
+    return AppAnalysisConfigLocalDataSource(
       analysisConfigFilePath: analysisConfigFilePath,
     );
   }
