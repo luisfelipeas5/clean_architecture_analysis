@@ -1,8 +1,10 @@
 import 'package:clean_architecture_analysis/main.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
-import 'package:clean_architecture_analysis/src/presentation/widgets/graph/app_graph.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/graph/algorithm/custom_algorithm.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/graph/app_graph_widget.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/controller/component_graph_controller.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/graph_interactive_viewer/graph_interactive_viewer.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/component_node_widget.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/node_widget.dart';
@@ -16,6 +18,9 @@ class DependenciesGraphPage extends StatefulWidget {
 
 class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   late ComponentGraphController _componentGraphController;
+  final CustomAlgorithm customAlgorithm = CustomAlgorithm(
+    renderer: ArrowEdgeRenderer(),
+  );
 
   @override
   void initState() {
@@ -58,7 +63,16 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
 
   Widget _buildBody() {
     if (_componentGraphController.graph.nodes.isEmpty) return _buildLoader();
-    return _buildAppGraph();
+    return GraphInteractiveViewer(
+      customAlgorithm: customAlgorithm,
+      graph: _componentGraphController.graph,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          _buildAppGraph(),
+        ],
+      ),
+    );
   }
 
   Widget _buildLoader() {
@@ -67,9 +81,10 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
     );
   }
 
-  AppGraph _buildAppGraph() {
-    return AppGraph(
+  Widget _buildAppGraph() {
+    return AppGraphWidget(
       graph: _componentGraphController.graph,
+      customAlgorithm: customAlgorithm,
       nodeWidgetBuilder: _nodeWidgetBuilder,
     );
   }
