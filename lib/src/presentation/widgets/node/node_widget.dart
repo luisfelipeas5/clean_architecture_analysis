@@ -2,7 +2,7 @@ import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/
 import 'package:flutter/material.dart';
 
 class NodeWidget extends StatelessWidget {
-  static const double width = 150;
+  static const double width = 200;
   final NodeState state;
   final VoidCallback? onTap;
   final String text;
@@ -37,7 +37,10 @@ class NodeWidget extends StatelessWidget {
   Widget _buildBackground({required Widget child}) {
     return Container(
       width: width,
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(
+        vertical: 16,
+        horizontal: 8,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         border: Border.all(
@@ -54,7 +57,7 @@ class NodeWidget extends StatelessWidget {
     return switch (state) {
       NodeState.warning => Colors.yellow,
       NodeState.error => Colors.red[400]!,
-      _ => Colors.transparent,
+      _ => Colors.black,
     };
   }
 
