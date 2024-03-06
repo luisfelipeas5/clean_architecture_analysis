@@ -2,5 +2,5 @@
 [X] - Paint arrows with a different color when clean archtecture rule is violated
 [X] - Fade nodes that aren't in focus or has no edge with which is in focus
 [X] - When click on nodes, remove from graph everything else that don't be part of the sub-graph
-[ ] - Draw/paint the circles of Clean Archtecture
+[X] - Add background color to nodes based on Clean Architecture order
 [ ] - Show which files are violating the arch rule
