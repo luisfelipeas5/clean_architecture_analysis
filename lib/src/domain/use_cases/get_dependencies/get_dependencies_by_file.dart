@@ -48,9 +48,22 @@ class GetDependenciesByFile {
       final componentDependency = ComponentDependency(
         component: componentByImport,
         wrongOrder: wrongOrder,
+        importedFiles: componentByImport.appFiles,
       );
-      if (componentDependencies.contains(componentDependency)) continue;
-      componentDependencies.add(componentDependency);
+
+      final indexWhere = componentDependencies.indexWhere((element) {
+        return element == componentDependency;
+      });
+
+      if (indexWhere >= 0) {
+        final additionalImportedFiles = componentDependency.component.appFiles;
+        componentDependencies[indexWhere] =
+            componentDependencies[indexWhere].copyWithAdditionalFiles(
+          additionalImportedFiles: additionalImportedFiles,
+        );
+      } else {
+        componentDependencies.add(componentDependency);
+      }
     }
     return Result.success(componentDependencies);
   }
