@@ -7,10 +7,12 @@ class NodeWidget extends StatelessWidget {
   final VoidCallback? onTap;
   final String text;
   final bool? selected;
+  final Color backgroundColor;
 
   const NodeWidget({
     required this.text,
     required this.state,
+    required this.backgroundColor,
     this.onTap,
     this.selected,
     super.key,
@@ -38,17 +40,21 @@ class NodeWidget extends StatelessWidget {
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        color: _getBackgroundColor()?.withOpacity(_getBackgroundOpacity()),
+        border: Border.all(
+          color: _getBorderColor().withOpacity(_getBackgroundOpacity()),
+          width: 2,
+        ),
+        color: backgroundColor.withOpacity(_getBackgroundOpacity()),
       ),
       child: child,
     );
   }
 
-  Color? _getBackgroundColor() {
+  Color _getBorderColor() {
     return switch (state) {
       NodeState.warning => Colors.yellow,
-      NodeState.error => Colors.red[400],
-      _ => Colors.blue[100],
+      NodeState.error => Colors.red[400]!,
+      _ => Colors.transparent,
     };
   }
 

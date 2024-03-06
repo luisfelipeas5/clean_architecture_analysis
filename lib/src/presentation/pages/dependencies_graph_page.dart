@@ -66,12 +66,7 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
     return GraphInteractiveViewer(
       customAlgorithm: customAlgorithm,
       graph: _componentGraphController.graph,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          _buildAppGraph(),
-        ],
-      ),
+      child: _buildAppGraph(),
     );
   }
 
