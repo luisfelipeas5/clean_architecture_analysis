@@ -4,3 +4,6 @@
 [X] - When click on nodes, remove from graph everything else that don't be part of the sub-graph
 [X] - Add background color to nodes based on Clean Architecture order
 [ ] - Show which files are violating the arch rule
+[ ] - Hide arrows when node are not selected
+[ ] - Show cycles in dependency graph
+[ ] - Show stability of each component
