@@ -5,4 +5,8 @@ import 'package:clean_architecture_analysis/src/domain/entities/files/app_file.d
 abstract interface class FileSystemRepository {
   Future<Result<List<AppFile>>> getFiles(AnalysisConfig analysisConfig);
   Future<Result<String>> getFileContent(AppFile appFile);
+  Future<Result<AppFile>> getFile({
+    required String rootPath,
+    required String relativePath,
+  });
 }
