@@ -29,10 +29,13 @@ class ComponentGraphController {
 
   ComponentNode? _componentNodeSelected;
 
+  bool get hasComponentSelected => _componentNodeSelected != null;
+
   void load({
     required List<ComponentWithDependencies> componentWithDependenciesList,
   }) {
     graph = Graph();
+    _componentNodeSelected = null;
 
     final filteredComponents =
         filterGraphComponents(components: componentWithDependenciesList).data!;
@@ -68,5 +71,16 @@ class ComponentGraphController {
         componentNodeSelected: componentNode,
       );
     }
+  }
+
+  List<ComponentWithDependencies> get seletedComponents {
+    return graph.nodes
+        .where(
+          (node) => (node as ComponentNode).selected == true,
+        )
+        .map(
+          (node) => (node as ComponentNode).componentWithDependencies,
+        )
+        .toList();
   }
 }

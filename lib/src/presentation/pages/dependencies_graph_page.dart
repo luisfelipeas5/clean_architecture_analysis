@@ -1,6 +1,7 @@
 import 'package:clean_architecture_analysis/main.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/file_tree/components_selected_file_tree.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/algorithm/custom_algorithm.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/app_graph_widget.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/controller/component_graph_controller.dart';
@@ -34,12 +35,6 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
     _loadGraph();
   }
 
-  @override
-  void didUpdateWidget(covariant DependenciesGraphPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _loadGraph();
-  }
-
   void _loadGraph() async {
     final getComponentsWithDependencies =
         appDependencyInjector<GetComponentsWithDependencies>();
@@ -57,7 +52,25 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildBody(),
+      body: Row(
+        children: [
+          if (_componentGraphController.hasComponentSelected)
+            Expanded(
+              flex: 1,
+              child: _buildComponentSelectedFileTreeWidget(),
+            ),
+          Expanded(
+            flex: 2,
+            child: _buildBody(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildComponentSelectedFileTreeWidget() {
+    return ComponentsSelectedFileTree(
+      components: _componentGraphController.seletedComponents,
     );
   }
 
