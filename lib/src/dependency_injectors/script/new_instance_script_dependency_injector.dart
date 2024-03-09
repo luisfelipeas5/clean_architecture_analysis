@@ -95,7 +95,10 @@ class NewInstanceScriptDependencyInjector implements ScriptDependencyInjector {
   }
 
   GetComponentByRelativePath _getGetComponentByRelativePath() {
-    return GetComponentByRelativePath();
+    return GetComponentByRelativePath(
+      fileSystemRepository: _getFileSystemRepository(),
+      getAnalysisConfig: _getGetAnalysisConfig(),
+    );
   }
 
   GetComponentTypes _getGetComponentTypes() {

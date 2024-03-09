@@ -1,11 +1,6 @@
 import 'package:clean_architecture_analysis/src/architecture_core/dependency_injector/app/app_dependency_injector.dart';
-import 'package:clean_architecture_analysis/src/data/data_sources/file_system/file_system_data_source.dart';
-import 'package:clean_architecture_analysis/src/data/data_sources/file_system/file_system_data_source_impl.dart';
-import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/analysis_config_local_data_source.dart';
-import 'package:clean_architecture_analysis/src/data/data_sources/local/analysis_config/app_analysis_config_local_data_source.dart';
-import 'package:clean_architecture_analysis/src/data/repositories/analysis_config/analysis_config_repository_impl.dart';
-import 'package:clean_architecture_analysis/src/data/repositories/file_system/file_system_repository_impl.dart';
-import 'package:clean_architecture_analysis/src/domain/repositories/analysis_config/analysis_config_repository.dart';
+import 'package:clean_architecture_analysis/src/dependency_injectors/app/data/set_up_data_sources_dependency_injections.dart';
+import 'package:clean_architecture_analysis/src/dependency_injectors/app/data/set_up_repositories_dependency_injections.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/filter_components_graph/filter_components_graph.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_analysis_config/get_analysis_config.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_components/get_component_by_file.dart';
@@ -31,15 +26,74 @@ class SetUpDependencyInjections {
   });
 
   void call() {
-    injector.putSingleton<GetComponentsWithDependencies>((injector) {
-      return GetComponentsWithDependencies(
-        getComponents: _getGetComponents(),
-        getDependencies: _getGetDependencies(),
+    SetUpDataSourcesDependencyInjections(
+      injector: injector,
+      analysisConfigFilePath: analysisConfigFilePath,
+    )();
+
+    SetUpRepositoriesDependencyInjections(
+      injector: injector,
+      debugMode: debugMode,
+    )();
+
+    _putUseCasesDirectWithRepository();
+
+    injector.putSingleton<GetComponentTypes>((injector) {
+      return GetComponentTypes(
+        fileSystemRepository: injector(),
+        getAnalysisConfig: injector(),
+      );
+    });
+    
+
+    injector.putSingleton<GetComponentByRelativePath>((injector) {
+      return GetComponentByRelativePath(
+        fileSystemRepository: injector(),
+        getAnalysisConfig: injector(),
       );
     });
 
-    injector.putSingleton((injector) {
-      return GetOrderCircuferences();
+    injector.putSingleton<GetComponentByImport>((injector) {
+      return GetComponentByImport(
+        getAnalysisConfig: injector(),
+        getComponentByRelativePath: injector(),
+      );
+    });
+
+    injector.putSingleton<GetDependenciesByFile>((injector) {
+      return GetDependenciesByFile(
+        fileSystemRepository: injector(),
+        getComponentByImport: injector(),
+      );
+    });
+
+    injector.putSingleton<GetComponentByFile>((injector) {
+      return GetComponentByFile(
+        getComponentByRelativePath: injector(),
+      );
+    });
+
+    injector.putSingleton<GetComponents>((injector) {
+      return GetComponents(
+        getComponentByFile: injector(),
+        getComponentTypes: injector(),
+        fileSystemRepository: injector(),
+        getAnalysisConfig: injector(),
+      );
+    });
+
+    injector.putSingleton<GetDependencies>((injector) {
+      return GetDependencies(
+        getDependenciesByFile: injector(),
+        getComponentTypes: injector(),
+      );
+    });
+
+    injector.putSingleton<GetComponentsWithDependencies>((injector) {
+      return GetComponentsWithDependencies(
+        getComponents: injector(),
+        getDependencies: injector(),
+      );
     });
 
     injector.putSingleton((injector) {
@@ -47,85 +101,21 @@ class SetUpDependencyInjections {
         getOrderCircuferences: injector(),
       );
     });
+  }
+  
+  void _putUseCasesDirectWithRepository() {
+    injector.putSingleton<GetAnalysisConfig>((injector) {
+      return GetAnalysisConfig(
+        analysisConfigRepository: injector(),
+      );
+    });
+    
+    injector.putSingleton((injector) {
+      return GetOrderCircuferences();
+    });
 
     injector.putSingleton((injector) {
       return FilterComponentsGraph();
     });
-  }
-
-  GetComponents _getGetComponents() {
-    return GetComponents(
-      fileSystemRepository: _getFileSystemRepository(),
-      getComponentByFile: _getGetComponentByFile(),
-      getComponentTypes: _getGetComponentTypes(),
-      getAnalysisConfig: _getGetAnalysisConfig(),
-    );
-  }
-
-  GetComponentByFile _getGetComponentByFile() {
-    return GetComponentByFile(
-      getComponentByRelativePath: _getGetComponentByRelativePath(),
-    );
-  }
-
-  GetComponentByRelativePath _getGetComponentByRelativePath() {
-    return GetComponentByRelativePath();
-  }
-
-  GetComponentTypes _getGetComponentTypes() {
-    return GetComponentTypes(
-      fileSystemRepository: _getFileSystemRepository(),
-      getAnalysisConfig: _getGetAnalysisConfig(),
-    );
-  }
-
-  GetDependencies _getGetDependencies() {
-    return GetDependencies(
-      getDependenciesByFile: _getGetDependenciesByFile(),
-      getComponentTypes: _getGetComponentTypes(),
-    );
-  }
-
-  GetDependenciesByFile _getGetDependenciesByFile() {
-    return GetDependenciesByFile(
-      getComponentByImport: _getGetComponentByImport(),
-      fileSystemRepository: _getFileSystemRepository(),
-    );
-  }
-
-  GetComponentByImport _getGetComponentByImport() {
-    return GetComponentByImport(
-      getComponentByRelativePath: _getGetComponentByRelativePath(),
-      getAnalysisConfig: _getGetAnalysisConfig(),
-    );
-  }
-
-  FileSystemRepositoryImpl _getFileSystemRepository() {
-    return FileSystemRepositoryImpl(
-      debugMode: debugMode,
-      fileSystemDataSource: _getFileSystemDataSource(),
-    );
-  }
-
-  GetAnalysisConfig _getGetAnalysisConfig() {
-    return GetAnalysisConfig(
-      analysisConfigRepository: _getAnalysisConfigRepository(),
-    );
-  }
-
-  AnalysisConfigRepository _getAnalysisConfigRepository() {
-    return AnalysisConfigRepositoryImpl(
-      analysisConfigLocalDataSource: _getAnalysisConfigLocalDataSource(),
-      fileSystemDataSource: _getFileSystemDataSource(),
-      debugMode: debugMode,
-    );
-  }
-
-  FileSystemDataSource _getFileSystemDataSource() => FileSystemDataSourceImpl();
-
-  AnalysisConfigLocalDataSource _getAnalysisConfigLocalDataSource() {
-    return AppAnalysisConfigLocalDataSource(
-      analysisConfigFilePath: analysisConfigFilePath,
-    );
   }
 }
