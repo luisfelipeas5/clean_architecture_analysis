@@ -7,4 +7,9 @@ abstract interface class FileSystemDataSource {
   });
 
   Future<String> getFileContent(AppFile appFile);
+
+  Future<AppFile?> getFile({
+    required String rootPath,
+    required String relativePath,
+  });
 }

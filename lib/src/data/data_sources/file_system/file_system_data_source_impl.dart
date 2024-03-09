@@ -56,4 +56,20 @@ class FileSystemDataSourceImpl implements FileSystemDataSource {
     final file = File(appFile.path);
     return await file.readAsString();
   }
+
+  @override
+  Future<AppFile?> getFile({
+    required String rootPath,
+    required String relativePath,
+  }) async {
+    final file = File(rootPath + relativePath);
+    if (!await file.exists()) {
+      return null;
+    }
+
+    return AppFileModel.fromFileSystemEntity(
+      rootPath: rootPath,
+      fileSystemEntity: file,
+    );
+  }
 }
