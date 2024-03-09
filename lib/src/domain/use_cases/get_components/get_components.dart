@@ -33,17 +33,17 @@ class GetComponents {
 
     final types = typesResult.data!;
     final files = filesResult.data;
-    final components = _getComponentsByFiles(files, types);
+    final components = await _getComponentsByFiles(files, types);
     return Result.success(components);
   }
 
-  List<Component> _getComponentsByFiles(
+  Future<List<Component>> _getComponentsByFiles(
     List<AppFile>? files,
     List<ComponentType> types,
-  ) {
+  ) async {
     final components = <Component>[];
     for (var file in files ?? []) {
-      final componentResult = getComponentByFile(
+      final componentResult = await getComponentByFile(
         file: file,
         types: types,
       );

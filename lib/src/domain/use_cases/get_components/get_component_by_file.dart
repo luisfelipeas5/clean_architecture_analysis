@@ -11,11 +11,11 @@ class GetComponentByFile {
     required this.getComponentByRelativePath,
   });
 
-  Result<Component> call({
+  Future<Result<Component>> call({
     required AppFile file,
     required List<ComponentType> types,
-  }) {
-    final componentResult = getComponentByRelativePath(
+  }) async {
+    final componentResult = await getComponentByRelativePath(
       relativePath: file.relativePath,
       types: types,
     );

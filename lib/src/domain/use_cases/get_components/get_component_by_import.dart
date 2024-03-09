@@ -22,7 +22,7 @@ class GetComponentByImport {
     if (!fromPackage) return Result.success(null);
 
     final relativePath = _getRelativePath(import);
-    final componentResult = getComponentByRelativePath(
+    final componentResult = await getComponentByRelativePath(
       relativePath: relativePath,
       types: types,
     );
