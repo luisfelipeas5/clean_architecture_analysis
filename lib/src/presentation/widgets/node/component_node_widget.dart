@@ -1,3 +1,4 @@
+import 'package:clean_architecture_analysis/src/presentation/extensions/component_type_presentation_extensions.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/node_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,18 +23,9 @@ class ComponentNodeWidget extends StatelessWidget {
       text: _text,
       state: componentNode.state,
       selected: componentNode.selected,
-      backgroundColor: _backgroundColor,
+      backgroundColor: componentNode.component.type?.backgroundColor,
       onTap: () => onTap?.call(componentNode),
     );
-  }
-
-  Color get _backgroundColor {
-    return switch (componentNode.order) {
-      0 => Color(0xffff9feaf),
-      1 => Color(0xfffff9d99),
-      2 => Color(0xfff83ffb3),
-      _ => Color(0xfff9adaff),
-    };
   }
 
   String get _text {

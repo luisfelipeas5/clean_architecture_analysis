@@ -7,7 +7,7 @@ class NodeWidget extends StatelessWidget {
   final VoidCallback? onTap;
   final String text;
   final bool? selected;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   const NodeWidget({
     required this.text,
@@ -47,7 +47,7 @@ class NodeWidget extends StatelessWidget {
           color: _getBorderColor().withOpacity(_getBackgroundOpacity()),
           width: 2,
         ),
-        color: backgroundColor.withOpacity(_getBackgroundOpacity()),
+        color: backgroundColor?.withOpacity(_getBackgroundOpacity()),
       ),
       child: child,
     );
