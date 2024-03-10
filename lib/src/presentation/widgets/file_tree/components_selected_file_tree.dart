@@ -23,6 +23,17 @@ class _ComponentsSelectedFileTreeState
   final Map<ComponentWithDependencies, bool> expandedMap = {};
 
   @override
+  void didUpdateWidget(covariant ComponentsSelectedFileTree oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final sameComponents = !widget.components.any((component) {
+      return !oldWidget.components.contains(component);
+    });
+    if (!sameComponents) {
+      expandedMap.clear();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: _boxDecoration,
@@ -49,10 +60,10 @@ class _ComponentsSelectedFileTreeState
       final expanded = expandedMap[component] ?? false;
 
       slivers.add(_buildComponentSliver(component, expanded));
+      slivers.add(_buildSeparator(2));
 
       if (expanded) {
         slivers.addAll(_buildDependenciesSlivers(component));
-        slivers.add(SliverToBoxAdapter(child: SizedBox(height: 16)));
       }
     }
     return slivers;
@@ -67,7 +78,10 @@ class _ComponentsSelectedFileTreeState
       slivers.add(SliverToBoxAdapter(child: SizedBox(height: 16)));
       slivers.add(_buildDependencySliver(dependency));
       slivers.add(_buildImportedFilesSliver(dependency));
+      slivers.add(SliverToBoxAdapter(child: SizedBox(height: 16)));
+      slivers.add(_buildSeparator(1));
     }
+    slivers.add(_buildSeparator(1));
     return slivers;
   }
 
@@ -77,7 +91,6 @@ class _ComponentsSelectedFileTreeState
   ) {
     return ComponentSliverFileStree(
       componentWithDependencies: componentWithDep,
-      expanded: expanded,
       onComponentTap: _onComponentTap,
     );
   }
@@ -98,6 +111,15 @@ class _ComponentsSelectedFileTreeState
   Widget _buildImportedFilesSliver(ComponentDependency dependency) {
     return ImportedFilesSliverFileTree(
       dependency: dependency,
+    );
+  }
+
+  Widget _buildSeparator(double size) {
+    return SliverToBoxAdapter(
+      child: Container(
+        color: Colors.black,
+        height: size,
+      ),
     );
   }
 }

@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 
 class ComponentSliverFileStree extends StatelessWidget {
   final ComponentWithDependencies componentWithDependencies;
-  final bool expanded;
   final Function(ComponentWithDependencies componentWithDependencies)
       onComponentTap;
 
   const ComponentSliverFileStree({
     required this.componentWithDependencies,
-    required this.expanded,
     required this.onComponentTap,
     super.key,
   });
@@ -27,43 +25,34 @@ class ComponentSliverFileStree extends StatelessWidget {
             horizontal: 8,
             vertical: 16,
           ),
-          decoration: _getDecoration(),
-          child: _buildColumn(component, context),
-        ),
-      ),
-    );
-  }
-
-  Column _buildColumn(Component component, BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          component.name,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        if (expanded)
-          Padding(
-            padding: EdgeInsets.only(left: 8),
-            child: Text(
-              "has following dependencies: ",
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+          color: component.type?.backgroundColor,
+          child: Row(
+            children: [
+              Expanded(
+                child: _buildName(component, context),
+              ),
+              if (_hasWrongDependencies)
+                Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                ),
+            ],
           ),
-      ],
-    );
-  }
-
-  BoxDecoration _getDecoration() {
-    final component = componentWithDependencies.component;
-    return BoxDecoration(
-      color: component.type?.backgroundColor,
-      border: Border(
-        bottom: BorderSide(
-          color: Colors.black,
-          width: 2,
         ),
       ),
     );
+  }
+
+  Widget _buildName(Component component, BuildContext context) {
+    return Text(
+      component.name,
+      style: Theme.of(context).textTheme.titleMedium,
+    );
+  }
+
+  bool get _hasWrongDependencies {
+    return componentWithDependencies.dependencies.any((dependency) {
+      return dependency.wrongOrder;
+    });
   }
 }

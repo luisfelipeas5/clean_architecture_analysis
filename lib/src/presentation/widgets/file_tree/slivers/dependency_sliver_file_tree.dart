@@ -14,7 +14,12 @@ class DependencySliverFileTree extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         margin: EdgeInsets.only(left: 16),
-        child: Text(dependency.component.name),
+        child: Text(
+          dependency.component.name,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: dependency.wrongOrder ? Colors.red : null,
+              ),
+        ),
       ),
     );
   }
