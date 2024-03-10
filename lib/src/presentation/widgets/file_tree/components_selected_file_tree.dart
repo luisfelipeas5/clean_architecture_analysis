@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 
 class ComponentsSelectedFileTree extends StatefulWidget {
   final List<ComponentWithDependencies> components;
+  final ComponentWithDependencies componentWithDependenciesClicked;
 
   const ComponentsSelectedFileTree({
     required this.components,
+    required this.componentWithDependenciesClicked,
     super.key,
   });
 
@@ -23,6 +25,12 @@ class _ComponentsSelectedFileTreeState
   final Map<ComponentWithDependencies, bool> expandedMap = {};
 
   @override
+  void initState() {
+    super.initState();
+    expandedMap[widget.componentWithDependenciesClicked] = true;
+  }
+
+  @override
   void didUpdateWidget(covariant ComponentsSelectedFileTree oldWidget) {
     super.didUpdateWidget(oldWidget);
     final sameComponents = !widget.components.any((component) {
@@ -31,6 +39,7 @@ class _ComponentsSelectedFileTreeState
     if (!sameComponents) {
       expandedMap.clear();
     }
+    expandedMap[widget.componentWithDependenciesClicked] = true;
   }
 
   @override

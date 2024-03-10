@@ -71,6 +71,8 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   Widget _buildComponentSelectedFileTreeWidget() {
     return ComponentsSelectedFileTree(
       components: _componentGraphController.seletedComponents,
+      componentWithDependenciesClicked: _componentGraphController
+          .componentNodeClicked!.componentWithDependencies,
     );
   }
 

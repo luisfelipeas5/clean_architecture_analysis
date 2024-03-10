@@ -4,7 +4,6 @@ import 'package:clean_architecture_analysis/src/domain/entities/components/compo
 import 'package:clean_architecture_analysis/src/domain/use_cases/filter_components_graph/filter_components_graph.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/set_components_graph_node_positions/set_components_graph_node_positions.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
-import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/node_state.dart';
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
@@ -27,15 +26,15 @@ class ComponentGraphController {
 
   late Graph graph = Graph();
 
-  ComponentNode? _componentNodeSelected;
+  ComponentNode? componentNodeClicked;
 
-  bool get hasComponentSelected => _componentNodeSelected != null;
+  bool get hasComponentSelected => componentNodeClicked != null;
 
   void load({
     required List<ComponentWithDependencies> componentWithDependenciesList,
   }) {
     graph = Graph();
-    _componentNodeSelected = null;
+    componentNodeClicked = null;
 
     final filteredComponents =
         filterGraphComponents(components: componentWithDependenciesList).data!;
@@ -60,11 +59,11 @@ class ComponentGraphController {
   }
 
   void onComponentNodeTap(ComponentNode componentNode) {
-    if (_componentNodeSelected == componentNode) {
-      _componentNodeSelected = null;
+    if (componentNodeClicked == componentNode) {
+      componentNodeClicked = null;
       graph.nodes.forEach(unselectComponentsWithNull);
     } else {
-      _componentNodeSelected = componentNode;
+      componentNodeClicked = componentNode;
       graph.nodes.forEach(unselectComponentsWithFalse);
       selectComponent(
         graph: graph,

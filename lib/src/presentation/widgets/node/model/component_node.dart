@@ -9,13 +9,11 @@ class ComponentNode extends Node {
 
   ComponentNode({
     required this.componentWithDependencies,
-    this.state = NodeState.normal,
     this.selected,
   }) : super.Id(componentWithDependencies);
 
-  NodeState state;
   bool? selected;
-  
+
   Component get component {
     return componentWithDependencies.component;
   }
@@ -26,6 +24,14 @@ class ComponentNode extends Node {
 
   int? get order {
     return componentWithDependencies.component.type?.order;
+  }
+
+  NodeState get state {
+    final dependencies = componentWithDependencies.dependencies;
+    if (dependencies.any((element) => element.wrongOrder)) {
+      return NodeState.error;
+    }
+    return NodeState.normal;
   }
 }
 

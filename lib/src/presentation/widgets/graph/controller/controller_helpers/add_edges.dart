@@ -27,10 +27,6 @@ void _addEdges({
     final dependencyNode = nodes.getDependencyNode(dependency);
     if (dependencyNode != null) {
       final wrongEdge = dependency.wrongOrder;
-      if (wrongEdge) {
-        node.state = NodeState.error;
-        dependencyNode.state = NodeState.error;
-      }
       graph.addEdge(
         node,
         dependencyNode,
