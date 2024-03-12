@@ -1,5 +1,6 @@
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_dependency.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
+import 'package:clean_architecture_analysis/src/presentation/typedefs/component_callback.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/file_tree/slivers/component_sliver_file_tree.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/file_tree/slivers/dependency_sliver_file_tree.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/file_tree/slivers/imported_files_sliver_file_tree.dart';
@@ -8,10 +9,12 @@ import 'package:flutter/material.dart';
 class ComponentsSelectedFileTree extends StatefulWidget {
   final List<ComponentWithDependencies> components;
   final ComponentWithDependencies componentWithDependenciesClicked;
+  final ComponentDependencyCallback onDependencyTap;
 
   const ComponentsSelectedFileTree({
     required this.components,
     required this.componentWithDependenciesClicked,
+    required this.onDependencyTap,
     super.key,
   });
 
@@ -45,23 +48,20 @@ class _ComponentsSelectedFileTreeState
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: _boxDecoration,
-      child: CustomScrollView(
-        slivers: _slivers,
-      ),
-    );
-  }
-
-  BoxDecoration get _boxDecoration {
-    return BoxDecoration(
+      decoration: BoxDecoration(
       border: Border(
         right: BorderSide(
           color: Colors.black,
           width: 2,
         ),
       ),
+      ),
+      child: CustomScrollView(
+        slivers: _slivers,
+      ),
     );
   }
+
 
   List<Widget> get _slivers {
     final slivers = List<Widget>.empty(growable: true);
@@ -85,8 +85,12 @@ class _ComponentsSelectedFileTreeState
     final slivers = List<Widget>.empty(growable: true);
     for (var dependency in dependencies) {
       slivers.add(SliverToBoxAdapter(child: SizedBox(height: 16)));
-      slivers.add(_buildDependencySliver(dependency));
-      slivers.add(_buildImportedFilesSliver(dependency));
+      slivers.add(
+        _buildDependencySliver(componentWithDependencies, dependency),
+      );
+      slivers.add(
+        _buildImportedFilesSliver(componentWithDependencies, dependency),
+      );
       slivers.add(SliverToBoxAdapter(child: SizedBox(height: 16)));
       slivers.add(_buildSeparator(1));
     }
@@ -111,15 +115,25 @@ class _ComponentsSelectedFileTreeState
     });
   }
 
-  Widget _buildDependencySliver(ComponentDependency dependency) {
+  Widget _buildDependencySliver(
+    ComponentWithDependencies componentWithDep,
+    ComponentDependency dependency,
+  ) {
     return DependencySliverFileTree(
+      componentWithDep: componentWithDep,
       dependency: dependency,
+      onTap: widget.onDependencyTap,
     );
   }
 
-  Widget _buildImportedFilesSliver(ComponentDependency dependency) {
+  Widget _buildImportedFilesSliver(
+    ComponentWithDependencies componentWithDep,
+    ComponentDependency dependency,
+  ) {
     return ImportedFilesSliverFileTree(
+      componentWithDep: componentWithDep,
       dependency: dependency,
+      onTap: widget.onDependencyTap,
     );
   }
 

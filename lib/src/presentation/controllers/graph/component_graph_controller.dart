@@ -28,6 +28,9 @@ class ComponentGraphController {
 
   ComponentNode? componentNodeClicked;
 
+  ComponentWithDependencies? componentWithDepSelected;
+  ComponentDependency? dependencySelected;
+
   bool get hasComponentSelected => componentNodeClicked != null;
 
   void load({
@@ -81,5 +84,13 @@ class ComponentGraphController {
           (node) => (node as ComponentNode).componentWithDependencies,
         )
         .toList();
+  }
+
+  void onDependencyTap(
+    ComponentWithDependencies? componentWithDep,
+    ComponentDependency? dependency,
+  ) {
+    componentWithDepSelected = componentWithDep;
+    dependencySelected = dependency;
   }
 }

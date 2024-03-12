@@ -1,14 +1,16 @@
 import 'package:clean_architecture_analysis/main.dart';
+import 'package:clean_architecture_analysis/src/domain/entities/components/component_dependency.dart';
 import 'package:clean_architecture_analysis/src/domain/entities/components/component_with_dependencies.dart';
 import 'package:clean_architecture_analysis/src/domain/use_cases/get_dependencies/get_components_with_dependencies.dart';
+import 'package:clean_architecture_analysis/src/presentation/controllers/graph/component_graph_controller.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/file_tree/components_selected_file_tree.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/algorithm/custom_algorithm.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph/app_graph_widget.dart';
-import 'package:clean_architecture_analysis/src/presentation/widgets/graph/controller/component_graph_controller.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/graph_interactive_viewer/graph_interactive_viewer.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/component_node_widget.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/model/component_node.dart';
 import 'package:clean_architecture_analysis/src/presentation/widgets/node/node_widget.dart';
+import 'package:clean_architecture_analysis/src/presentation/widgets/which_files_import_dependency/which_files_import_dependency_container.dart';
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
@@ -19,7 +21,7 @@ class DependenciesGraphPage extends StatefulWidget {
 
 class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   late ComponentGraphController _componentGraphController;
-  final CustomAlgorithm customAlgorithm = CustomAlgorithm(
+  final CustomAlgorithm _customAlgorithm = CustomAlgorithm(
     renderer: ArrowEdgeRenderer(),
   );
 
@@ -59,10 +61,18 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
               flex: 1,
               child: _buildComponentSelectedFileTreeWidget(),
             ),
-          Expanded(
-            flex: 2,
-            child: _buildBody(),
-          ),
+          if (_componentGraphController.componentWithDepSelected != null) ...[
+            Expanded(
+              flex: 1,
+              child: _buildWhichFilesImportDependencyContainer(),
+            ),
+            Spacer(),
+          ],
+          if (_componentGraphController.componentWithDepSelected == null)
+            Expanded(
+              flex: 2,
+              child: _buildBody(),
+            ),
         ],
       ),
     );
@@ -73,13 +83,26 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
       components: _componentGraphController.seletedComponents,
       componentWithDependenciesClicked: _componentGraphController
           .componentNodeClicked!.componentWithDependencies,
+      onDependencyTap: _onDependencyTap,
     );
+  }
+
+  void _onDependencyTap(
+    ComponentWithDependencies componentWithDep,
+    ComponentDependency dependency,
+  ) {
+    setState(() {
+      _componentGraphController.onDependencyTap(
+        componentWithDep,
+        dependency,
+      );
+    });
   }
 
   Widget _buildBody() {
     if (_componentGraphController.graph.nodes.isEmpty) return _buildLoader();
     return GraphInteractiveViewer(
-      customAlgorithm: customAlgorithm,
+      customAlgorithm: _customAlgorithm,
       graph: _componentGraphController.graph,
       child: _buildAppGraph(),
     );
@@ -94,7 +117,7 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   Widget _buildAppGraph() {
     return AppGraphWidget(
       graph: _componentGraphController.graph,
-      customAlgorithm: customAlgorithm,
+      customAlgorithm: _customAlgorithm,
       nodeWidgetBuilder: _nodeWidgetBuilder,
     );
   }
@@ -110,5 +133,17 @@ class _DependenciesGraphPageState extends State<DependenciesGraphPage> {
   void _onComponentNodeTap(ComponentNode componentNode) {
     _componentGraphController.onComponentNodeTap(componentNode);
     setState(() {});
+  }
+
+  Widget _buildWhichFilesImportDependencyContainer() {
+    return WhichFilesImportDependencyContainer(
+      componentWithDependencies:
+          _componentGraphController.componentWithDepSelected!,
+      componentDependency: _componentGraphController.dependencySelected!,
+      onCloseTap: () {
+        _componentGraphController.onDependencyTap(null, null);
+        setState(() {});
+      },
+    );
   }
 }
